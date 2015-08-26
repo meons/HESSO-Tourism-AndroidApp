@@ -419,7 +419,8 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         // Create fragment and give it an argument for the selected article
         QuizFragment newFragment = new QuizFragment();
         Bundle args = new Bundle();
-        args.putInt(QuizFragment.ARG_POSITION, o.getmId());
+
+        args.putInt(QuizFragment.ARG_OFFICE_ID, o.getmId());
         newFragment.setArguments(args);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 

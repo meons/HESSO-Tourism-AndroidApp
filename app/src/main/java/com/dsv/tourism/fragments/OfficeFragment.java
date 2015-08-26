@@ -35,16 +35,17 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    //private static final String ARG_PARAM1 = "param1";
+    //private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //private String mParam1;
+    //private String mParam2;
 
+    /**
+     * Listener to interact with the fragment activity
+     */
     private OnFragmentInteractionListener mListener;
-
-    private final MobileServiceList<Office> result = null;
 
     /**
      * The fragment's ListView/GridView.
@@ -57,11 +58,18 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
      */
     private OfficeAdapter mAdapter;
 
+    /**
+     * A list of offices retrieve from Azure Mobile Service
+     */
     private MobileServiceList<Office> offices;
 
+    /**
+     * Used to identify class when logging
+     */
     private static final String TAG = OfficeFragment.class.getName();
 
     // TODO: Rename and change types of parameters
+    /*
     public static OfficeFragment newInstance(String param1, String param2) {
         OfficeFragment fragment = new OfficeFragment();
         Bundle args = new Bundle();
@@ -70,6 +78,7 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
         fragment.setArguments(args);
         return fragment;
     }
+    */
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -82,20 +91,18 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /*
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        */
 
         // init azure service
         DataHelper.init(getActivity());
 
-        // TODO: Change Adapter to display your content
-        /*mAdapter = new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS);*/
+        // create the adapter for offices list
         mAdapter = new OfficeAdapter(getActivity(), R.layout.row_list_office);
-
-
     }
 
     @Override
@@ -103,14 +110,14 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_office, container, false);
 
-        // Set the adapter
+        // Set the adapter to the office list
         mListView = (AbsListView) view.findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
 
-        // refresh office list
+        // get data from Azure mobile service and update the listview by adding rows to adapter
         refreshOfficeListFromTable();
 
         return view;
@@ -135,14 +142,10 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
         if (null != mListener) {
-
-            Office o = offices.get(position);
-
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(o);
+            mListener.onFragmentInteraction(offices.get(position));
         }
     }
 
@@ -170,7 +173,6 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(Office o);
     }
 

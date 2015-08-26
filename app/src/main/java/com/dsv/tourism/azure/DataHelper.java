@@ -9,6 +9,7 @@ import android.widget.ListView;
 import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.OfficeAdapter;
 import com.dsv.tourism.model.Office;
+import com.dsv.tourism.model.Quiz;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
@@ -39,6 +40,14 @@ public class DataHelper {
         }
     }
 
+    /**
+     * Get all tourist offices
+     *
+     * @return
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static MobileServiceList<Office> getOffices() throws MobileServiceException, ExecutionException, InterruptedException {
         MobileServiceTable<Office> mOfficeTable = mClient.getTable("office", Office.class);
         MobileServiceList<Office> result = null;
@@ -46,6 +55,23 @@ public class DataHelper {
             result = mOfficeTable.execute().get();
 
         return result;
+    }
+
+    /**
+     * Get all quizzes from an office
+     *
+     * @param id
+     * @return
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public static MobileServiceList<Quiz> getQuizzesByOfficeId(Integer id) throws MobileServiceException, ExecutionException, InterruptedException {
+        MobileServiceTable<Quiz> mOfficeTable = mClient.getTable("quiz", Quiz.class);
+        MobileServiceList<Quiz> quizzes = mOfficeTable.where().field("office_id").eq(id).execute().get();
+        //result = mOfficeTable.execute().get();
+
+        return quizzes;
     }
 
     private static class AzureServiceHelper {
