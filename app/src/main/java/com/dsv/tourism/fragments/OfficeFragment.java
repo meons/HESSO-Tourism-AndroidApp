@@ -17,6 +17,7 @@ import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.OfficeAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Office;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 /**
@@ -59,6 +60,8 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
      * A list of offices retrieve from Azure Mobile Service
      */
     private MobileServiceList<Office> offices;
+
+    private CircularProgressView circularProgressView;
 
     /**
      * Used to identify class when logging
@@ -106,6 +109,10 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_office, container, false);
+
+        // get the progress view indicator and set it as visible
+        circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
+        circularProgressView.setVisibility(View.VISIBLE);
 
         // Set the adapter to the office list
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -188,9 +195,7 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
                     //final MobileServiceList<Office> offices = DataHelper.getOffices();
                     offices = DataHelper.getOffices();
 
-
                     getActivity().runOnUiThread(new Runnable() {
-
                         @Override
                         public void run() {
                             mAdapter.clear();
@@ -198,6 +203,10 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
                             for (Office o : offices) {
                                 mAdapter.add(o);
                             }
+
+                            // hide circular progress view
+                            circularProgressView.setVisibility(View.GONE);
+                            circularProgressView.resetAnimation();
                         }
                     });
                 } catch (Exception exception) {
@@ -207,5 +216,7 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
             }
         }.execute();
     }
+
+
 
 }

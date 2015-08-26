@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId "com.dsv.tourism"
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -37,5 +37,6 @@ dependencies {
     compile 'com.android.support:design:22.2.0'
     compile 'fr.avianey.com.viewpagerindicator:library:2.4.1@aar'
     compile 'com.microsoft.azure:azure-mobile-services-android-sdk:2.0.3'
+    compile 'com.github.rahatarmanahmed:circularprogressview:2.3.2'
 
 }
