@@ -144,12 +144,7 @@ public class ScreenSlidePagerActivity extends FragmentActivity {
                 default:
                     return null;
             }
-
-            //return fragment;
-            //return new Bookmark_Fragment();
         }
-
-
 
         @Override
         public int getCount() {

@@ -33,16 +33,11 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dsv.tourism.fragments.OfficeFragment;
-import com.dsv.tourism.fragments.OfficeOLDFragment;
 import com.dsv.tourism.fragments.QuizFragment;
 import com.dsv.tourism.model.Office;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.DrawerAdapter;
-import com.dsv.tourism.fragments.Blog_Fragment;
-import com.dsv.tourism.fragments.Bookmark_Fragment;
-import com.dsv.tourism.fragments.Preview_Fragment;
-import com.dsv.tourism.fragments.Sales_Fragment;
 import com.dsv.tourism.ui.Items;
 import com.dsv.tourism.ui.MultiSwipeRefreshLayout;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -204,24 +199,10 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
             case 0:
                 break;
             case 1:
-                //Beiträge
                 fragment = new OfficeFragment();
                 break;
             case 2:
-                //Angebote
-                fragment = new Sales_Fragment();
-                break;
-            case 3:
-                //Blog
-                fragment = new Blog_Fragment();
-                break;
-            case 4:
-                //Favoriten
-                fragment = new Bookmark_Fragment();
-                break;
-            case 5:
-                //Google+ Community
-                fragment = new Preview_Fragment();
+                fragment = new OfficeFragment();
                 break;
         }
 
@@ -232,7 +213,6 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
                     .replace(R.id.main_content, fragment)
                     .commit();
         }
-
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -251,12 +231,10 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
 
         if (view.getId() == R.id.footer_text1) {
             //Settings
-            fragment = new Preview_Fragment();
-            mTitle = mFooterTitles[0];
+            fragment = new OfficeFragment();
+            mTitle = mDrawerTitles[0];
         } else if (view.getId() == R.id.footer_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
-            //Help
-            //fragment = new Preview_Fragment();
             //mTitle = mDrawerTitles[1];
         }
 

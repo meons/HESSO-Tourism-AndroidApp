@@ -9,9 +9,7 @@ public class Items {
     private String item_new;
     private int icon;
 
-    public Items() {
-
-    }
+    public Items() {}
 
     public Items(String title, int icon) {
         this.title = title;

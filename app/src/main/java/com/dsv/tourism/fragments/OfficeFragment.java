@@ -10,15 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.OfficeAdapter;
 import com.dsv.tourism.azure.DataHelper;
-import com.dsv.tourism.fragments.dummy.DummyContent;
 import com.dsv.tourism.model.Office;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
