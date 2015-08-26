@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/transparent"
+        android:overScrollMode="never"
+        />
+
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_gravity="bottom|center"
+        android:padding="30dip"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:background="@color/transparent" />
+
+    <ImageButton
+        android:layout_gravity="end|bottom|center"
+        android:id="@+id/arrow_forward"
+        android:background="?selectableItemBackground"
+        android:layout_width="62.0dip"
+        android:layout_height="62.0dip"
+        android:src="@drawable/ic_action_chevron_right" />
+
+    <ImageButton
+        android:layout_gravity="start|bottom|center"
+        android:id="@+id/arrow_backward"
+        android:background="?selectableItemBackground"
+        android:layout_width="62.0dip"
+        android:layout_height="62.0dip"
+        android:visibility="invisible"
+        android:src="@drawable/ic_action_chevron_left" />
+
+    <Button android:textAppearance="@style/TextAppearance.AppCompat.Button"
+        android:textColor="@android:color/white"
+        android:layout_gravity="end|bottom|center"
+        android:id="@+id/done"
+        android:background="?selectableItemBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="62.0dip"
+        android:text="Done"
+        android:visibility="invisible"
+        android:textAllCaps="true" />
+
+
+</FrameLayout>

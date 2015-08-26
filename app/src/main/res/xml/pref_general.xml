@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+         dismiss it. -->
+    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+    <PreferenceCategory android:title="@string/pref_title_unit">
+
+        <CheckBoxPreference
+            android:key="@string/pref_language_auto_key"
+            android:summary="@string/pref_language_auto_summary"
+            android:title="@string/pref_language_auto_title" />
+
+        <ListPreference
+            android:key="@string/pref_language_selection_key"
+            android:entries="@array/pref_language_selection_options"
+            android:entryValues="@array/pref_language_selection_values"
+            android:summary="@string/pref_language_selection_summary"
+            android:title="@string/pref_language_selection_title"
+            android:dependency="@string/pref_language_auto_key" />
+
+        <CheckBoxPreference
+            android:key="@string/pref_tutorial_key"
+            android:title="@string/pref_tutorial_title"
+            android:summary="@string/pref_tutorial_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

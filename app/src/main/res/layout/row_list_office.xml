@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <TextView
+        android:id="@+id/row_office_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:paddingLeft="@dimen/list_padding_left"
+        android:paddingRight="@dimen/list_padding_right"
+        android:layout_marginTop="@dimen/list_margin_top"
+        android:height="@dimen/list_row_height"
+        android:text="Office"
+        android:textColor="@color/text"
+        android:textSize="14sp"
+        android:gravity="center_vertical" />
+
+</RelativeLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_hesso-tourism-androidapp" default="compile.module.hesso-tourism-androidapp">
+  <dirname property="module.hesso-tourism-androidapp.basedir" file="${ant.file.module_hesso-tourism-androidapp}"/>
+  
+  <property name="module.jdk.home.hesso-tourism-androidapp" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.hesso-tourism-androidapp" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.hesso-tourism-androidapp" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.hesso-tourism-androidapp" value="-encoding windows-1252 -source 1.6 ${compiler.args}"/>
+  
+  <property name="hesso-tourism-androidapp.output.dir" value="${module.hesso-tourism-androidapp.basedir}/out/production/HESSO-Tourism-AndroidApp"/>
+  <property name="hesso-tourism-androidapp.testoutput.dir" value="${module.hesso-tourism-androidapp.basedir}/out/test/HESSO-Tourism-AndroidApp"/>
+  
+  <path id="hesso-tourism-androidapp.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="hesso-tourism-androidapp.module.production.classpath"/>
+  
+  <path id="hesso-tourism-androidapp.runtime.production.module.classpath">
+    <pathelement location="${hesso-tourism-androidapp.output.dir}"/>
+  </path>
+  
+  <path id="hesso-tourism-androidapp.module.classpath">
+    <pathelement location="${hesso-tourism-androidapp.output.dir}"/>
+  </path>
+  
+  <path id="hesso-tourism-androidapp.runtime.module.classpath">
+    <pathelement location="${hesso-tourism-androidapp.testoutput.dir}"/>
+    <pathelement location="${hesso-tourism-androidapp.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.hesso-tourism-androidapp">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.hesso-tourism-androidapp">
+    <patternset refid="excluded.from.module.hesso-tourism-androidapp"/>
+  </patternset>
+  
+  
+  <target name="compile.module.hesso-tourism-androidapp" depends="compile.module.hesso-tourism-androidapp.production,compile.module.hesso-tourism-androidapp.tests" description="Compile module HESSO-Tourism-AndroidApp"/>
+  
+  <target name="compile.module.hesso-tourism-androidapp.production" depends="register.custom.compilers" description="Compile module HESSO-Tourism-AndroidApp; production classes"/>
+  
+  <target name="compile.module.hesso-tourism-androidapp.tests" depends="register.custom.compilers,compile.module.hesso-tourism-androidapp.production" description="compile module HESSO-Tourism-AndroidApp; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.hesso-tourism-androidapp" description="cleanup module">
+    <delete dir="${hesso-tourism-androidapp.output.dir}"/>
+    <delete dir="${hesso-tourism-androidapp.testoutput.dir}"/>
+  </target>
+</project>
