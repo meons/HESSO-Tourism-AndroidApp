@@ -170,7 +170,6 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
-        trySetupSwipeRefresh();
     }
 
     @Override
@@ -311,27 +310,6 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
     @Override
     public boolean canSwipeRefreshChildScrollUp() {
         return false;
-    }
-
-    private void trySetupSwipeRefresh() {
-        mSwipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setColorSchemeResources(
-                    R.color.refresh_progress_1,
-                    R.color.refresh_progress_2,
-                    R.color.refresh_progress_3);
-            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    Toast.makeText(getApplication(),"Refresh!", Toast.LENGTH_LONG);
-                }
-            });
-
-            if (mSwipeRefreshLayout instanceof MultiSwipeRefreshLayout) {
-                MultiSwipeRefreshLayout mswrl = (MultiSwipeRefreshLayout) mSwipeRefreshLayout;
-                mswrl.setCanChildScrollUpCallback(this);
-            }
-        }
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

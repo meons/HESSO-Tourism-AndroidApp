@@ -133,8 +133,8 @@
                 android:text="Contact the tourist office staff your reference number. It is displayed in the top of the menu." android:alpha="0.8" />
         </LinearLayout>
         <ImageView
-            android:layout_width="220.0dip"
-            android:layout_height="310.0dip"
+            android:layout_width="240.0dip"
+            android:layout_height="270.0dip"
             android:src="@drawable/tut_widget"
             android:layout_above="@id/pocket3"
             android:layout_centerHorizontal="true" />
