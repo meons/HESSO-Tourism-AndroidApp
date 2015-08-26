@@ -5,27 +5,6 @@
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout android:gravity="center"
-        android:layout_gravity="center"
-        android:orientation="vertical"
-        android:id="@+id/intro"
-        android:visibility="gone"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <ImageView android:id="@+id/main_image"
-            android:layout_width="200.0dip"
-            android:layout_height="250.0dip"
-            android:src="@drawable/tutorial_intro" />
-        <TextView android:textSize="30.0sp"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:id="@+id/main_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="BEAUTY IN\nSIMPLICITY"
-            android:fontFamily="sans-serif-thin" />
-    </LinearLayout>
-
     <RelativeLayout
         android:orientation="vertical"
         android:id="@+id/swipe_tut"

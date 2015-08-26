@@ -2,9 +2,9 @@
 <resources>
 
     <!-- Material Light_Blue Primary -->
-    <color name="color_light_blue_500">#0277bd</color>
-    <color name="color_light_blue_100">#b9e1f8</color>
-    <color name="color_light_blue_700">#1687ca</color>
+    <color name="color_light_blue_500">#009688</color>
+    <color name="color_light_blue_100">#b2dfdb</color>
+    <color name="color_light_blue_700">#00796b</color>
 
     <!-- Material Orange Accent -->
     <color name="color_orange_A200">#ff9800</color>

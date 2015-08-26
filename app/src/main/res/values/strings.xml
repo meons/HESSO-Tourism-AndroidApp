@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Material Menu Drawer</string>
+    <string name="app_name">Health Tourism</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello World!</string>
     <string name="drawer_open">open</string>
