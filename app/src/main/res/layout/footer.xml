@@ -27,7 +27,7 @@
             android:paddingLeft="@dimen/drawer_text_without_icon"
             android:paddingRight="@dimen/drawer_right"
             android:text="About"
-            android:textColor="@color/text"
+            android:textColor="@color/text_primary"
             android:textSize="14sp" />
 
     </RelativeLayout>
@@ -47,7 +47,7 @@
             android:paddingLeft="@dimen/drawer_text_without_icon"
             android:paddingRight="@dimen/drawer_right"
             android:text="Settings"
-            android:textColor="@color/text"
+            android:textColor="@color/text_primary"
             android:textSize="14sp" />
 
     </RelativeLayout>

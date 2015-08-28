@@ -8,8 +8,11 @@ import android.widget.ListView;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.OfficeAdapter;
+import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Office;
+import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Quiz;
+import com.dsv.tourism.model.Result;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
@@ -72,6 +75,51 @@ public class DataHelper {
         //result = mOfficeTable.execute().get();
 
         return quizzes;
+    }
+
+    public static MobileServiceList<Question> getQuestionByIdTest(Integer id) throws MobileServiceException, ExecutionException, InterruptedException {
+        MobileServiceTable<Question> mOfficeTable = mClient.getTable("question", Question.class);
+        MobileServiceList<Question> q =  mOfficeTable.where().field("id").eq(id).top(1).execute().get();
+
+        return q;
+    }
+
+    public static MobileServiceList<Question> getQuestionByQuizId(Integer id) throws MobileServiceException, ExecutionException, InterruptedException {
+        MobileServiceTable<Question> mOfficeTable = mClient.getTable("question", Question.class);
+        MobileServiceList<Question> questions = mOfficeTable.where().field("quiz_id").eq(id).top(1).execute().get();
+
+        return questions;
+    }
+
+    public static MobileServiceList<Question> getQuestionById(Integer id) throws MobileServiceException, ExecutionException, InterruptedException {
+        MobileServiceTable<Question> mOfficeTable = mClient.getTable("question", Question.class);
+        MobileServiceList<Question> questions = mOfficeTable.where().field("id").eq(id).top(1).execute().get();
+        //result = mOfficeTable.execute().get();
+
+        return questions;
+    }
+
+    public static void addResult(Result r) throws MobileServiceException, ExecutionException, InterruptedException {
+
+        MobileServiceTable<Result> mResultTable  = mClient.getTable("result", Result.class);
+        mResultTable.insert(r).get();
+    }
+
+    /**
+     * Get all quizzes from an office
+     *
+     * @param id
+     * @return
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public static MobileServiceList<Answer> getAnswersByQuestionId(Integer id) throws MobileServiceException, ExecutionException, InterruptedException {
+        MobileServiceTable<Answer> mOfficeTable = mClient.getTable("answer", Answer.class);
+        MobileServiceList<Answer> answers = mOfficeTable.where().field("question_id").eq(id).execute().get();
+        //result = mOfficeTable.execute().get();
+
+        return answers;
     }
 
     private static class AzureServiceHelper {

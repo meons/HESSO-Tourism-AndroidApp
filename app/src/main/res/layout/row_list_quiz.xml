@@ -16,7 +16,7 @@
         android:layout_marginTop="@dimen/list_margin_top"
         android:height="@dimen/list_row_height"
         android:text="Office"
-        android:textColor="@color/text"
+        android:textColor="@color/text_primary"
         android:textSize="14sp"
         android:gravity="center_vertical" />
 

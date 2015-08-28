@@ -3,14 +3,8 @@
 
     <string name="app_name">Health Tourism</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello World!</string>
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
-
-    <plurals name="numberOfNewArticles">
-        <item quantity="one">%d new</item>
-        <item quantity="other">%d new</item>
-    </plurals>
 
     <string-array name="drawer_titles">
         <item>Offices quizzes</item>
@@ -29,9 +23,8 @@
 
     <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="preference_file_tutorial">com.dsv.tourism.PREFERENCE_TUTORIAL</string>
+    <string name="preference_tourist_reference">com.dsv.tourism.TOURIST_REFERENCE</string>
+    <string name="title_activity_question">QuestionActivity</string>
 
 </resources>

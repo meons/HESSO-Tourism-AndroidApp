@@ -12,10 +12,22 @@
         <item name="android:windowSharedElementEnterTransition">@android:transition/move</item>
         <item name="android:windowSharedElementExitTransition">@android:transition/move</item>
 
+        <item name="android:actionBarStyle">@style/ActionBarTheme</item>
+        <item name="actionBarStyle">@style/ActionBarTheme</item>
+
     </style>
 
 
     <style name="Preference" parent="Preference">
 
+    </style>
+
+    <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColorPrimary">@color/text_white</item>
+        <item name="colorControlNormal">@color/text_white</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
+        <item name="colorControlHighlight">@color/text_secondary</item>
+        <item name="android:textColorSecondary">@color/text_primary</item>
     </style>
 </resources>

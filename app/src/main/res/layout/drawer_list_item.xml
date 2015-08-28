@@ -18,7 +18,7 @@
         android:ellipsize="end"
         android:paddingLeft="@dimen/drawer_text_with_icon"
         android:paddingRight="@dimen/drawer_right"
-        android:textColor="@color/text"
+        android:textColor="@color/text_primary"
         android:textSize="14sp" />
 
 </RelativeLayout>

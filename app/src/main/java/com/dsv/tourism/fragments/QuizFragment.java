@@ -1,8 +1,13 @@
 package com.dsv.tourism.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,14 +15,17 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.Toast;
 
 import com.dsv.tourism.R;
+import com.dsv.tourism.activities.MainActivity;
+import com.dsv.tourism.activities.QuestionActivity;
 import com.dsv.tourism.adapter.QuizAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Quiz;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
-public class QuizFragment extends Fragment {
+public class QuizFragment extends Fragment implements AbsListView.OnItemClickListener {
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -28,7 +36,7 @@ public class QuizFragment extends Fragment {
     /**
      * A list of quizzes retrieve from Azure Mobile Service
      */
-    private MobileServiceList<Quiz> quizzes;
+    private MobileServiceList<Quiz> mMSLQuizzes;
 
     /**
      * The fragment's ListView holding quizzes
@@ -59,6 +67,12 @@ public class QuizFragment extends Fragment {
         // init azure service
         DataHelper.init(getActivity());
 
+
+        /*
+        ((MainActivity)getActivity()).resetActionBar(true,
+                DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        */
+
         // create the adapter for quizzes list
         mAdapter = new QuizAdapter(getActivity(), R.layout.row_list_quiz);
     }
@@ -72,6 +86,17 @@ public class QuizFragment extends Fragment {
         // This is primarily necessary when in the two-pane layout.
         if (savedInstanceState != null) {
             mCurrentOfficeId = savedInstanceState.getInt(ARG_OFFICE_ID);
+        }
+
+
+        //actionBar.setDisplayHomeAsUpEnabled
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+
+        //for crate home button
+        if(null != toolbar) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            activity.setSupportActionBar(toolbar);
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         // Inflate the layout for this fragment
@@ -100,6 +125,8 @@ public class QuizFragment extends Fragment {
         // Set the adapter to the quizzes list
         mListViewQuizzes = (AbsListView) getActivity().findViewById(android.R.id.list);
         ((AdapterView<ListAdapter>) mListViewQuizzes).setAdapter(mAdapter);
+
+        mListViewQuizzes.setOnItemClickListener(this);
 
         // get data from Azure mobile service and update the listview by adding rows to adapter
         refreshQuizListFromTable(officeId);
@@ -131,7 +158,7 @@ public class QuizFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    quizzes = DataHelper.getQuizzesByOfficeId(id);
+                    mMSLQuizzes = DataHelper.getQuizzesByOfficeId(id);
 
                     getActivity().runOnUiThread(new Runnable() {
 
@@ -139,7 +166,7 @@ public class QuizFragment extends Fragment {
                         public void run() {
                             mAdapter.clear();
 
-                            for (Quiz q : quizzes) {
+                            for (Quiz q : mMSLQuizzes) {
                                 mAdapter.add(q);
                             }
                         }
@@ -150,5 +177,17 @@ public class QuizFragment extends Fragment {
                 return null;
             }
         }.execute();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        Quiz quiz = mMSLQuizzes.get(position);
+
+        Intent intent = new Intent(getActivity(), QuestionActivity.class);
+        intent.putExtra(QuestionActivity.ARG_QUIZ_ID, quiz.getmId());
+
+        startActivity(intent);
+        //this.finish();
     }
 }

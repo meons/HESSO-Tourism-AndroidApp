@@ -24,7 +24,12 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".activities.QuestionActivity"
+            android:label="@string/title_activity_question"
+            >
+        </activity>
     </application>
 
 </manifest>

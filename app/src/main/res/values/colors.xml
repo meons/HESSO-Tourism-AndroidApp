@@ -37,8 +37,8 @@
     <color name="text_primary">#de424242</color>
     <color name="divider">#dadada</color>
     <color name="hints">#b8b8b8</color>
-    <color name="secondary">#727272</color>
-    <color name="text">#212121</color>
+    <color name="text_white">#ffffff</color>
+    <color name="white">#ffffff</color>
 
     <!-- Tutorial Colors -->
     <color name="tutorial_background">#e3000000</color>

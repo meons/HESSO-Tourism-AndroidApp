@@ -1,8 +1,5 @@
 package com.dsv.tourism.activities;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -15,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -25,28 +21,22 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.dsv.tourism.fragments.OfficeFragment;
-import com.dsv.tourism.fragments.QuizFragment;
-import com.dsv.tourism.model.Office;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.DrawerAdapter;
+import com.dsv.tourism.fragments.OfficeFragment;
+import com.dsv.tourism.fragments.QuizFragment;
+import com.dsv.tourism.model.Office;
 import com.dsv.tourism.ui.Items;
-import com.dsv.tourism.ui.MultiSwipeRefreshLayout;
-import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 
 import java.util.ArrayList;
+import java.util.Random;
 
-
-public class MainActivity extends ActionBarActivity implements OfficeFragment.OnFragmentInteractionListener,
-        MultiSwipeRefreshLayout.CanChildScrollUpCallback {
+public class MainActivity extends ActionBarActivity implements OfficeFragment.OnFragmentInteractionListener {
 
     private String[] mDrawerTitles;
     private String[] mFooterTitles;
@@ -57,48 +47,27 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-
-    private static FragmentManager mManager;
-
-
-    /**
-     * Mobile Service Table used to access data
-     */
-    private MobileServiceTable<Office> mOfficeTable;
-
-
-
-    /**
-     * Progress spinner to use for table operations
-     */
-    private ProgressBar mProgressBar;
-
-    // SwipeRefreshLayout allows the user to swipe the screen down to trigger a manual refresh
-    private MultiSwipeRefreshLayout mSwipeRefreshLayout;
+    private FragmentManager mSupportFragmentManager;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         // First launch tutorial slider
-        //SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_tutorial), Context.MODE_PRIVATE);
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("appFirstLaunch", true);
-            editor.putBoolean(getString(R.string.pref_tutorial_key), false);
-            editor.commit();
-            Intent intent = new Intent(this, ScreenSlidePagerActivity.class);
-            startActivity(intent);
+        launchTutorialAtFirstStart();
+
+        // new tourist reference, stored in shared preferences
+        createTouristReference();
+
+        // get toolbar and set it as action bar
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
         }
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (toolbar != null) setSupportActionBar(toolbar);
-
-        mManager = getSupportFragmentManager();
+        mSupportFragmentManager = getSupportFragmentManager();
 
         mDrawerTitles = getResources().getStringArray(R.array.drawer_titles);
         mFooterTitles = getResources().getStringArray(R.array.footer_titles);
@@ -115,7 +84,7 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                toolbar,  /* nav drawer icon to replace 'Up' caret */
+                mToolbar,  /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
         ) {
@@ -135,6 +104,8 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         LayoutInflater inflater = getLayoutInflater();
         final ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header,
@@ -146,8 +117,8 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         // Give your Toolbar a subtitle!
         /* mToolbar.setSubtitle("Subtitle"); */
 
-        mDrawerList.addHeaderView(header, null, true); // true = clickable
-        mDrawerList.addFooterView(footer, null, true); // true = clickable
+        mDrawerList.addHeaderView(header, null, false); // true = clickable
+        mDrawerList.addFooterView(footer, null, false); // true = clickable
 
         //Set width of drawer
         DrawerLayout.LayoutParams lp = (DrawerLayout.LayoutParams) mDrawerList.getLayoutParams();
@@ -158,11 +129,6 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         mDrawerList.setAdapter(new DrawerAdapter(getApplicationContext(), drawerItems));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
-
     }
 
     @Override
@@ -207,8 +173,10 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
 
         if (fragment != null) {
             // Insert the fragment by replacing any existing fragment
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
+            //FragmentManager fragmentManager = getSupportFragmentManager();
+
+
+            mSupportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, fragment)
                     .commit();
         }
@@ -219,7 +187,6 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
             setTitle(mDrawerTitles[position - 1]);
         }
         mDrawerLayout.closeDrawer(mDrawerList);
-
     }
 
     public void footerClick(View view) {
@@ -239,8 +206,8 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
 
         if (!settingsCheck && fragment != null) {
             // update the main content by replacing fragments
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
+            //FragmentManager fragmentManager = getSupportFragmentManager();
+            mSupportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, fragment)
                     .commit();
         }
@@ -268,23 +235,77 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //mDrawerToggle.setDrawerIndicatorEnabled(true);
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) {
+            mDrawerToggle.setDrawerIndicatorEnabled(true);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public int calculateDrawerWidth() {
+    @Override
+    public boolean onSupportNavigateUp() {
+
+        Toast.makeText(getApplicationContext(), "msg msg 1", Toast.LENGTH_SHORT).show();
+
+        //This method is called when the up button is pressed. Just the pop back stack.
+        //getSupportFragmentManager().popBackStack();
+        mSupportFragmentManager.popBackStack();
+        return true;
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        // turn on the Navigation Drawer image;
+        // this is called in the LowerLevelFragments
+        mDrawerToggle.setDrawerIndicatorEnabled(true);
+    }
+
+    @Override
+    public void onFragmentInteraction(Office o) {
+        // The user select an Office from the OfficeFragment
+
+        // We don't need to capture a new fragment because ww only create a one pane layout
+        // If the frag is not available, we're in the one-pane layout and must swap frags...
+
+        // Create fragment and give it an argument for the selected article
+        QuizFragment newFragment = new QuizFragment();
+        Bundle args = new Bundle();
+
+        args.putInt(QuizFragment.ARG_OFFICE_ID, o.getmId());
+        newFragment.setArguments(args);
+        FragmentTransaction transaction = mSupportFragmentManager.beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.main_content, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+    }
+
+    private int calculateDrawerWidth() {
         // Calculate ActionBar height
         TypedValue tv = new TypedValue();
         int actionBarHeight = 0;
@@ -307,85 +328,39 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         return width - actionBarHeight;
     }
 
-    @Override
-    public boolean canSwipeRefreshChildScrollUp() {
-        return false;
-    }
-
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
+    private void launchTutorialAtFirstStart() {
+        // First launch tutorial slider
+        //SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_tutorial), Context.MODE_PRIVATE);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("appFirstLaunch", true);
+            editor.putBoolean(getString(R.string.pref_tutorial_key), false);
+            //editor.commit();
+            editor.apply();
+            Intent intent = new Intent(this, ScreenSlidePagerActivity.class);
+            startActivity(intent);
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void circleIn(View view) {
+    private void createTouristReference() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
-        // get the center for the clipping circle
-        int cx = (view.getLeft() + view.getRight()) / 2;
-        int cy = (view.getTop() + view.getBottom()) / 2;
 
-        // get the final radius for the clipping circle
-        int finalRadius = Math.max(view.getWidth(), view.getHeight());
+        if (!pref.getBoolean("touristReferenceCreated", false)) {
 
-        // create the animator for this view (the start radius is zero)
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(view, cx, cy, 0, finalRadius);
-
-        // make the view visible and start the animation
-        view.setVisibility(View.VISIBLE);
-        anim.start();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void circleOut(final View view) {
-
-        // get the center for the clipping circle
-        int cx = (view.getLeft() + view.getRight()) / 2;
-        int cy = (view.getTop() + view.getBottom()) / 2;
-
-        // get the initial radius for the clipping circle
-        int initialRadius = view.getWidth();
-
-        // create the animation (the final radius is zero)
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(view, cx, cy, initialRadius, 0);
-
-        // make the view invisible when the animation is done
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                view.setVisibility(View.INVISIBLE);
+            char[] chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ".toCharArray();
+            StringBuilder sb = new StringBuilder();
+            Random random = new Random();
+            for (int i = 0; i < 5; i++) {
+                char c = chars[random.nextInt(chars.length)];
+                sb.append(c);
             }
-        });
 
-        // start the animation
-        anim.start();
-    }
-
-    @Override
-    public void onFragmentInteraction(Office o) {
-        // The user select an Office from the OfficeFragment
-
-        // We don't need to capture a new fragment because ww only create a one pane layout
-        // If the frag is not available, we're in the one-pane layout and must swap frags...
-
-        // Create fragment and give it an argument for the selected article
-        QuizFragment newFragment = new QuizFragment();
-        Bundle args = new Bundle();
-
-        args.putInt(QuizFragment.ARG_OFFICE_ID, o.getmId());
-        newFragment.setArguments(args);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.main_content, newFragment);
-        transaction.addToBackStack(null);
-
-        // Commit the transaction
-        transaction.commit();
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("touristReferenceCreated", true);
+            editor.putString(getString(R.string.preference_tourist_reference), sb.toString());
+            editor.apply();
+        }
     }
 }
