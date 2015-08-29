@@ -10,5 +10,4 @@
     android:background="?attr/colorPrimary"
     app:navigationIcon="?attr/homeAsUpIndicator"
     app:title="@string/action_settings"
-    style="@style/Widget.MyApp.ActionBar"
     />
