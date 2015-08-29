@@ -27,6 +27,7 @@
         android:paddingTop="@dimen/drawer_top">
 
         <ImageButton
+            android:id="@+id/image_button_reset_session"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="end|top|center"

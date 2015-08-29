@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
     private CharSequence mTitle;
     private FragmentManager mSupportFragmentManager;
     private Toolbar mToolbar;
+    private ImageButton mResetSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,16 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
+        // Reset Session
+        mResetSession = (ImageButton) findViewById(R.id.image_button_reset_session);
+        mResetSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resetSession();
+            }
+        });
 
+        // set default fragment
         FragmentTransaction tx = mSupportFragmentManager.beginTransaction();
         tx.replace(R.id.main_content, new OfficeFragment());
         tx.commit();
@@ -338,10 +349,10 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         // First launch tutorial slider
         //SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_tutorial), Context.MODE_PRIVATE);
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        //if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
-        if (!pref.getBoolean("appFirstLaunch", false)) {
+        if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
+        //if (!pref.getBoolean("appFirstLaunch", false)) {
             SharedPreferences.Editor editor = pref.edit();
-            //editor.putBoolean("appFirstLaunch", true);
+            editor.putBoolean("appFirstLaunch", true);
             editor.putBoolean(getString(R.string.pref_tutorial_key), false);
             //editor.commit();
             editor.apply();
@@ -369,5 +380,20 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
             editor.putString(getString(R.string.preference_tourist_reference), sb.toString());
             editor.apply();
         }
+    }
+
+    /**$
+     * Restart a new user session
+     */
+    private void resetSession() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("appFirstLaunch", false);
+        editor.apply();
+
+        // restart the main activity
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 }
