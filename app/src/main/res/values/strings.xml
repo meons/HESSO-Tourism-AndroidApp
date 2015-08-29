@@ -22,7 +22,18 @@
     </string-array>
 
     <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
+    
+    <!-- Tutorial -->
+    <string name="tutorial_age_title">What is your birth date?</string>
+    <string name="tutorial_age_hint">YYYY-mm-dd</string>
+    <string name="tutorial_age_text">Only used to offer you the most suitable activities</string>
+    <string name="tutorial_age_error">Please, give us your birth date</string>
+    <string name="tutorial_age_date_error">Birth date date format incorrect</string>
 
+    <string name="tutorial_gender_error">Are you a men or women</string>
+    
+
+    <!-- Shared preferences -->
     <string name="preference_file_tutorial">com.dsv.tourism.PREFERENCE_TUTORIAL</string>
     <string name="preference_tourist_reference">com.dsv.tourism.TOURIST_REFERENCE</string>
     <string name="title_activity_question">QuestionActivity</string>

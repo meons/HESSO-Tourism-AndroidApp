@@ -9,6 +9,9 @@
     <string name="pref_header_general">Général</string>
 
 
+    <string name="pref_age_key">com.dsv.tourism.PREF_AGE_KEY</string>
+    <string name="pref_gender_key">com.dsv.tourism.PREF_GENDER_KEY</string>
+
     <string name="pref_tutorial_key">com.dsv.tourism.PREF_TUTORIAL_KEY</string>
     <string name="pref_tutorial_title">Tutorial</string>
     <string name="pref_tutorial_summary">Launch tutorial at first start</string>

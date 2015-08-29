@@ -15,9 +15,11 @@ import com.dsv.tourism.R;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.fragments.QuestionFragment;
 import com.dsv.tourism.model.Answer;
+import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Result;
 
+import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
      */
     private HashMap<Integer, Integer> quizAnswers = new HashMap<Integer, Integer>();
 
+    private int mQuizId;
     /**
      * Used to identify class when logging
      */
@@ -93,6 +96,8 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         // add all answers to Hash Map
         quizAnswers.put(a.getmId(), q.getmQuizId());
 
+        mQuizId = q.getmQuizId();
+
         // check if end of quiz ?
         if(null != a.getmNextQuestionId()) {
 
@@ -115,8 +120,6 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             //Fragment questionFragment = new FragmentQuest
 
             insertResult(quizAnswers);
-
-
 
             this.finish();
         }
@@ -148,8 +151,18 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                         // TODO: Set correct tourist ID
                         result.setmTouristId(1);
 
+                        // save result
                         DataHelper.addResult(result);
                     }
+
+                    Participation p = new Participation();
+                    p.setmTouristId(1);
+                    p.setmQuizId(mQuizId);
+                    java.util.Date utilDate = new java.util.Date();
+                    p.setmCreatedAt(new java.sql.Timestamp(utilDate.getTime()));
+
+                    // save participation
+                    DataHelper.addParticipation(p);
 	            } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
 	            }

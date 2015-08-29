@@ -10,6 +10,7 @@ import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.OfficeAdapter;
 import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Office;
+import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Quiz;
 import com.dsv.tourism.model.Result;
@@ -97,6 +98,12 @@ public class DataHelper {
         //result = mOfficeTable.execute().get();
 
         return questions;
+    }
+
+    public static void addParticipation(Participation p) throws MobileServiceException, ExecutionException, InterruptedException {
+
+        MobileServiceTable<Participation> mResultTable  = mClient.getTable("participation", Participation.class);
+        mResultTable.insert(p).get();
     }
 
     public static void addResult(Result r) throws MobileServiceException, ExecutionException, InterruptedException {

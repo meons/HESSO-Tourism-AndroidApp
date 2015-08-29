@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Display;
@@ -36,7 +37,7 @@ import com.dsv.tourism.ui.Items;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends ActionBarActivity implements OfficeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements OfficeFragment.OnFragmentInteractionListener {
 
     private String[] mDrawerTitles;
     private String[] mFooterTitles;
@@ -129,6 +130,11 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         mDrawerList.setAdapter(new DrawerAdapter(getApplicationContext(), drawerItems));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+
+        FragmentTransaction tx = mSupportFragmentManager.beginTransaction();
+        tx.replace(R.id.main_content, new OfficeFragment());
+        tx.commit();
     }
 
     @Override
@@ -332,9 +338,10 @@ public class MainActivity extends ActionBarActivity implements OfficeFragment.On
         // First launch tutorial slider
         //SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_tutorial), Context.MODE_PRIVATE);
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
+        //if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
+        if (!pref.getBoolean("appFirstLaunch", false)) {
             SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("appFirstLaunch", true);
+            //editor.putBoolean("appFirstLaunch", true);
             editor.putBoolean(getString(R.string.pref_tutorial_key), false);
             //editor.commit();
             editor.apply();
