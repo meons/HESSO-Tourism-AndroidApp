@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:persistent="false"
+    android:title="About app">
+
+    <PreferenceCategory android:title="About">
+
+
+        <Preference
+            android:key="version"
+            android:title="v1.0.0" />
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
