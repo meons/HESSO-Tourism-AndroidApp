@@ -38,7 +38,16 @@
     </style>
 
     <style name="Preference" parent="AppTheme.Base">
-        <item name="android:textColorSecondary">@color/text_white</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+    </style>
+
+    <style name="Widget.MyApp.ActionBar" parent="Widget.AppCompat.ActionBar">
+        <item name="theme">@style/ThemeOverlay.MyApp.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+    <style name="ThemeOverlay.MyApp.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/text_white</item>
     </style>
 
     <style name="ActionBarTheme" parent="Widget.AppCompat.Toolbar">

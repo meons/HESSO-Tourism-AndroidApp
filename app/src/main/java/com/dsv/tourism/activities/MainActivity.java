@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                mToolbar,  /* nav drawer icon to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description */
                 R.string.drawer_close  /* "close drawer" description */
         ) {
@@ -277,9 +276,6 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
 
     @Override
     public boolean onSupportNavigateUp() {
-
-        Toast.makeText(getApplicationContext(), "msg msg 1", Toast.LENGTH_SHORT).show();
-
         //This method is called when the up button is pressed. Just the pop back stack.
         //getSupportFragmentManager().popBackStack();
         mSupportFragmentManager.popBackStack();
