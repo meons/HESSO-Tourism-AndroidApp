@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:id="@+id/background"
+    android:background="@color/tutorial_background"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout android:orientation="vertical"
+        android:id="@+id/swipe_tut3"
+        android:visibility="visible"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/pocket3"
+            android:paddingTop="32.0dip"
+            android:layout_width="fill_parent"
+            android:layout_height="200.0dip"
+            android:layout_alignParentBottom="true">
+            <TextView android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textSize="22.0sp"
+                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32.0dip"
+                android:layout_marginStart="32.0dip"
+                android:text="What is your gender?" />
+            <RadioGroup
+                android:id="@+id/radio_group_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginTop="12.0dip"
+                android:layout_marginLeft="30.0dip"
+                android:layout_marginRight="30.0dip"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/radio_btn_gender_female"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:buttonTint="@color/text_white"
+                    android:textColor="@color/text_white"
+                    android:button="@drawable/abc_btn_radio_material"
+                    android:text="I am a woman"
+                    android:tag="1"
+                    android:theme="@style/EditTextWhite"
+                />
+                <RadioButton
+                    android:id="@+id/radio_btn_gender_male"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_white"
+                    android:buttonTint="@color/text_white"
+                    android:button="@drawable/abc_btn_radio_material"
+                    android:text="I am a man"
+                    android:tag="0"
+                    android:theme="@style/EditTextWhite"
+                />
+            </RadioGroup>
+            <TextView android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/abc_secondary_text_material_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32.0dip"
+                android:layout_marginStart="32.0dip"
+                android:layout_marginTop="4.0dip"
+                android:layout_marginRight="72.0dip"
+                android:layout_marginEnd="72.0dip"
+                android:text="@string/tutorial_age_text"
+                android:alpha="0.8" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="190.0dip"
+            android:layout_height="190.0dip"
+            android:src="@drawable/man"
+            android:layout_above="@id/pocket3"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/man" />
+        <View
+            android:background="@drawable/shadow_horizontal_inverted"
+            android:layout_width="fill_parent"
+            android:layout_height="5.0dip"
+            android:layout_above="@id/pocket3" />
+
+    </RelativeLayout>
+</FrameLayout>
