@@ -22,7 +22,10 @@
     </string-array>
 
     <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
-    
+
+    <!-- Tourist Reference -->
+    <string name="reference_description">Your reference</string>
+
     <!-- Tutorial -->
     <string name="tutorial_age_title">What is your birth date?</string>
     <string name="tutorial_age_hint">YYYY-mm-dd</string>

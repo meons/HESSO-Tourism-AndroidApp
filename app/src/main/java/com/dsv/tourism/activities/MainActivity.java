@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dsv.tourism.R;
@@ -34,6 +35,8 @@ import com.dsv.tourism.fragments.OfficeFragment;
 import com.dsv.tourism.fragments.QuizFragment;
 import com.dsv.tourism.model.Office;
 import com.dsv.tourism.ui.Items;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
     private FragmentManager mSupportFragmentManager;
     private Toolbar mToolbar;
     private ImageButton mResetSession;
+    private TextView mTouristReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +64,6 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
 
         // First launch tutorial slider
         launchTutorialAtFirstStart();
-
-        // new tourist reference, stored in shared preferences
-        createTouristReference();
 
         // get toolbar and set it as action bar
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -132,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         mDrawerList.setAdapter(new DrawerAdapter(getApplicationContext(), drawerItems));
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        // new tourist reference, stored in shared preferences
+        createTouristReference();
 
         // Reset Session
         mResetSession = (ImageButton) findViewById(R.id.image_button_reset_session);
@@ -364,13 +368,12 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
     private void createTouristReference() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
-
         if (!pref.getBoolean("touristReferenceCreated", false)) {
 
             char[] chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ".toCharArray();
             StringBuilder sb = new StringBuilder();
             Random random = new Random();
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 4; i++) {
                 char c = chars[random.nextInt(chars.length)];
                 sb.append(c);
             }
@@ -379,16 +382,22 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
             editor.putBoolean("touristReferenceCreated", true);
             editor.putString(getString(R.string.preference_tourist_reference), sb.toString());
             editor.apply();
+            //editor.commit();
         }
+
+        // retrieve from shared preferences
+        mTouristReference = (TextView) findViewById(R.id.text_view_reference);
+        mTouristReference.setText(pref.getString(getString(R.string.preference_tourist_reference), "NA"));
     }
 
-    /**$
+    /**
      * Restart a new user session
      */
     private void resetSession() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("appFirstLaunch", false);
+        editor.putBoolean("touristReferenceCreated", false);
         editor.apply();
 
         // restart the main activity
