@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Health Tourism</string>
+    <string name="action_settings">Options</string>
+    <string name="drawer_open">ouvrir</string>
+    <string name="drawer_close">fermer</string>
+
+    <string-array name="drawer_titles">
+        <item>Quiz</item>
+        <item>Quiz répondus</item>
+    </string-array>
+
+    <array name="drawer_icons">
+        <item>@drawable/ic_apps</item>
+        <item>@drawable/ic_sales</item>
+    </array>
+
+    <string-array name="footer_titles">
+        <item>A propos</item>
+        <item>Options</item>
+    </string-array>
+
+    <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
+
+    <!-- Tourist Reference -->
+    <string name="reference_description">Votre référence</string>
+
+    <!-- Tutorial -->
+    <string name="tutorial_age_title">Quelle est votre date de naissance?</string>
+    <string name="tutorial_age_hint">YYYY-mm-dd</string>
+    <string name="tutorial_age_text">Uniquement utilisé dans le but de vous proposer les activités les plus adéquates</string>
+    <string name="tutorial_age_error">S\'il vous plait, donnez-nous votre date de naissance</string>
+    <string name="tutorial_age_date_error">Le format de la date de naissance est incorrect</string>
+
+    <string name="tutorial_gender_error">Etes-vous un homme ou une femme?</string>
+    
+
+    <!-- Shared preferences -->
+    <string name="preference_file_tutorial">com.dsv.tourism.PREFERENCE_TUTORIAL</string>
+    <string name="preference_tourist_reference">com.dsv.tourism.TOURIST_REFERENCE</string>
+    <string name="title_activity_question">QuestionActivity</string>
+
+</resources>

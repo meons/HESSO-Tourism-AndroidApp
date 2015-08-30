@@ -1,19 +1,24 @@
 package com.dsv.tourism.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.dsv.tourism.R;
 
+import java.util.Locale;
 
-@SuppressWarnings("deprecation")
-public class SettingsActivity extends PreferenceActivity {
+
+public class SettingsActivity extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
     private AppCompatDelegate mDelegate;
 
@@ -28,7 +33,6 @@ public class SettingsActivity extends PreferenceActivity {
         getDelegate().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getDelegate().getSupportActionBar().setDisplayShowHomeEnabled(true);
         addPreferencesFromResource(R.xml.settings);
-
     }
 
     @Override
@@ -85,5 +89,43 @@ public class SettingsActivity extends PreferenceActivity {
             mDelegate = AppCompatDelegate.create(this, null);
         }
         return mDelegate;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Set up a listener whenever a key changes
+        getPreferenceScreen().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // Unregister the listener whenever a key changes
+        getPreferenceScreen().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        /*
+        String lang = sharedPreferences.getString(key, "fr");
+
+        Toast.makeText(getApplicationContext(), "msg msg" + lang, Toast.LENGTH_SHORT).show();
+        setLocale(lang);
+        */
+    }
+
+    private void setLocale(String lang) {
+        //myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale =  new Locale(lang);
+        res.updateConfiguration(conf, dm);
+        Intent refresh = new Intent(this, SettingsActivity.class);
+        startActivity(refresh);
+        finish();
     }
 }

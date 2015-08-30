@@ -3,52 +3,33 @@ package com.dsv.tourism.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.TypedArray;
-import android.graphics.Point;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dsv.tourism.R;
-import com.dsv.tourism.adapter.DrawerAdapter;
+import com.dsv.tourism.fragments.AboutFragment;
 import com.dsv.tourism.fragments.OfficeFragment;
 import com.dsv.tourism.fragments.QuizFragment;
 import com.dsv.tourism.model.Office;
-import com.dsv.tourism.ui.Items;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements OfficeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OfficeFragment.OnFragmentInteractionListener {
 
-    private String[] mDrawerTitles;
-    private String[] mFooterTitles;
-    private TypedArray mDrawerIcons;
-    private ArrayList<Items> drawerItems;
-    private DrawerLayout mDrawerLayout;
-    private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -57,10 +38,19 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
     private ImageButton mResetSession;
     private TextView mTouristReference;
 
+    private NavigationView mDrawer;
+    private DrawerLayout mDrawerLayout;
+    private  ActionBarDrawerToggle drawerToggle;
+    private int mSelectedId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // language
+        //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
+        //LocalisationHelper.setLocale(getApplicationContext(), pref.getString(getString(R.string.pref_language_selection_key), "fr"));
 
         // First launch tutorial slider
         launchTutorialAtFirstStart();
@@ -73,32 +63,25 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
 
         mSupportFragmentManager = getSupportFragmentManager();
 
-        mDrawerTitles = getResources().getStringArray(R.array.drawer_titles);
-        mFooterTitles = getResources().getStringArray(R.array.footer_titles);
-        mDrawerIcons = getResources().obtainTypedArray(R.array.drawer_icons);
-        drawerItems = new ArrayList<Items>();
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-        for (int i = 0; i < mDrawerTitles.length; i++) {
-            drawerItems.add(new Items(mDrawerTitles[i], mDrawerIcons.getResourceId(i, -(i + 1))));
-        }
+        mDrawer= (NavigationView) findViewById(R.id.main_drawer);
+        mDrawer.setNavigationItemSelectedListener(this);
 
         mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
+        mDrawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
 
-            /** Called when a drawer has settled in a completely closed state. */
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,                  //* host Activity
+                mDrawerLayout,         //* DrawerLayout object
+                R.string.drawer_open,  //* "open drawer" description
+                R.string.drawer_close  //* "close drawer" description
+        ) {
+            // Called when a drawer has settled in a completely closed state.
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 getSupportActionBar().setTitle(mTitle);
             }
 
-            /** Called when a drawer has settled in a completely open state. */
+            // Called when a drawer has settled in a completely open state.
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 getSupportActionBar().setTitle(mDrawerTitle);
@@ -107,31 +90,18 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
 
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        //drawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.drawer_open,R.string.drawer_close);
+        //mDrawerLayout.setDrawerListener(drawerToggle);
+        //drawerToggle.syncState();
+        //default it set first item as selected
+        mSelectedId = savedInstanceState == null ? R.id.navigation_item_quizzes: savedInstanceState.getInt("SELECTED_ID");
+        selectItem(mSelectedId);
+
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        LayoutInflater inflater = getLayoutInflater();
-        final ViewGroup header = (ViewGroup) inflater.inflate(R.layout.header,
-                mDrawerList, false);
-
-        final ViewGroup footer = (ViewGroup) inflater.inflate(R.layout.footer,
-                mDrawerList, false);
-
-        // Give your Toolbar a subtitle!
-        /* mToolbar.setSubtitle("Subtitle"); */
-
-        mDrawerList.addHeaderView(header, null, false); // true = clickable
-        mDrawerList.addFooterView(footer, null, false); // true = clickable
-
-        //Set width of drawer
-        DrawerLayout.LayoutParams lp = (DrawerLayout.LayoutParams) mDrawerList.getLayoutParams();
-        lp.width = calculateDrawerWidth();
-        mDrawerList.setLayoutParams(lp);
-
-        // Set the adapter for the list view
-        mDrawerList.setAdapter(new DrawerAdapter(getApplicationContext(), drawerItems));
-        // Set the list's click listener
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
         // new tourist reference, stored in shared preferences
         createTouristReference();
@@ -141,14 +111,9 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         mResetSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetSession();
+                resetTouristSession();
             }
         });
-
-        // set default fragment
-        FragmentTransaction tx = mSupportFragmentManager.beginTransaction();
-        tx.replace(R.id.main_content, new OfficeFragment());
-        tx.commit();
     }
 
     @Override
@@ -161,14 +126,14 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        //mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     /* Called whenever we call invalidateOptionsMenu() */
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        //boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         //menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
@@ -177,67 +142,39 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
      * Swaps fragments in the main content view
      */
     private void selectItem(int position) {
-
         Fragment fragment = null;
 
         switch (position) {
-            case 0:
-                break;
-            case 1:
+            case R.id.navigation_item_quizzes:
                 fragment = new OfficeFragment();
                 break;
-            case 2:
+            case R.id.navigation_item_answered_quizzes:
                 fragment = new OfficeFragment();
+                break;
+            case R.id.navigation_sub_item_about:
+                fragment = new AboutFragment();
+                break;
+            case R.id.navigation_sub_item_options:
+                //menuItem.setChecked(false);
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
         }
 
         if (fragment != null) {
-            // Insert the fragment by replacing any existing fragment
-            //FragmentManager fragmentManager = getSupportFragmentManager();
-
-
             mSupportFragmentManager.beginTransaction()
                     .replace(R.id.main_content, fragment)
                     .commit();
         }
 
         // Highlight the selected item, update the title, and close the drawer
-        mDrawerList.setItemChecked(position, true);
+        //mDrawerList.setItemChecked(position, true);
+        /*
         if (position != 0) {
             setTitle(mDrawerTitles[position - 1]);
         }
-        mDrawerLayout.closeDrawer(mDrawerList);
-    }
-
-    public void footerClick(View view) {
-
-        Fragment fragment = null;
-        boolean settingsCheck = false;
-        mDrawerLayout.closeDrawer(mDrawerList);
-
-        if (view.getId() == R.id.footer_text1) {
-            //Settings
-            fragment = new OfficeFragment();
-            mTitle = mDrawerTitles[0];
-        } else if (view.getId() == R.id.footer_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            //mTitle = mDrawerTitles[1];
-        }
-
-        if (!settingsCheck && fragment != null) {
-            // update the main content by replacing fragments
-            //FragmentManager fragmentManager = getSupportFragmentManager();
-            mSupportFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, fragment)
-                    .commit();
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            if (!settingsCheck && getFragmentManager().findFragmentByTag("preference") != null) {
-
-                getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentByTag("preference")).commit();
-            }
-        }
+        */
+        //mDrawerLayout.closeDrawer(mDrawerList);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
     @Override
@@ -282,11 +219,14 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         return true;
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+        menuItem.setChecked(true);
+        mSelectedId = menuItem.getItemId();
+        selectItem(mSelectedId);
+
+        return false;
     }
 
     @Override
@@ -322,29 +262,6 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         transaction.commit();
     }
 
-    private int calculateDrawerWidth() {
-        // Calculate ActionBar height
-        TypedValue tv = new TypedValue();
-        int actionBarHeight = 0;
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        }
-
-        Display display = getWindowManager().getDefaultDisplay();
-        int width;
-        int height;
-        if (android.os.Build.VERSION.SDK_INT >= 13) {
-            Point size = new Point();
-            display.getSize(size);
-            width = size.x;
-            height = size.y;
-        } else {
-            width = display.getWidth();  // deprecated
-            height = display.getHeight();  // deprecated
-        }
-        return width - actionBarHeight;
-    }
-
     private void launchTutorialAtFirstStart() {
         // First launch tutorial slider
         //SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_tutorial), Context.MODE_PRIVATE);
@@ -361,6 +278,10 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
         }
     }
 
+    /**
+     * Create a new tourist reference, store it in shared preferences
+     * and update reference in the drawer header
+     */
     private void createTouristReference() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
@@ -389,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements OfficeFragment.On
     /**
      * Restart a new user session
      */
-    private void resetSession() {
+    private void resetTouristSession() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         SharedPreferences.Editor editor = pref.edit();
         editor.putBoolean("appFirstLaunch", false);

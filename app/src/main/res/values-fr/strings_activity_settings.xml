@@ -17,7 +17,7 @@
     <!-- Launch tutorial at first start -->
     <string name="pref_tutorial_key">com.dsv.tourism.PREF_TUTORIAL_KEY</string>
     <string name="pref_tutorial_title">Tutorial</string>
-    <string name="pref_tutorial_summary">Launch tutorial at first start</string>
+    <string name="pref_tutorial_summary">Lancer le tutoriel au démarrage</string>
 
     <!-- Language auto/manual -->
     <string name="pref_language_auto_key">com.dsv.tourism.PREF_LANGUAGE_AUTO_KEY</string>

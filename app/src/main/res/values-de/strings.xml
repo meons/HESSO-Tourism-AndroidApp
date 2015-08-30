@@ -6,24 +6,20 @@
     <string name="drawer_open">open</string>
     <string name="drawer_close">close</string>
 
-    <!-- Navigation Drawer -->
-    <string name="drawer_item_quizzes">Quizzes</string>
-    <string name="drawer_item_answered_quizzes">Answered quizzes</string>
-
-    <string name="drawer_sub_item_about">About</string>
-    <string name="drawer_sub_item_options">Options</string>
-
     <string-array name="drawer_titles">
         <item>Offices quizzes</item>
         <item>Answered Quizzes</item>
     </string-array>
+
     <array name="drawer_icons">
         <item>@drawable/ic_apps</item>
         <item>@drawable/ic_sales</item>
     </array>
-    <string name="drawer_footer_about">About</string>
-    <string name="drawer_footer_settings">Settings</string>
 
+    <string-array name="footer_titles">
+        <item>About</item>
+        <item>Settings</item>
+    </string-array>
 
     <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
 
