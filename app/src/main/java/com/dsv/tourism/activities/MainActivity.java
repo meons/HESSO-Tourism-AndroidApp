@@ -19,16 +19,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.fragments.AboutFragment;
+import com.dsv.tourism.fragments.AnsweredQuizFragment;
 import com.dsv.tourism.fragments.OfficeFragment;
 import com.dsv.tourism.fragments.QuizFragment;
 import com.dsv.tourism.model.Office;
+import com.dsv.tourism.model.Quiz;
 
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OfficeFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        OfficeFragment.OnFragmentInteractionListener,
+        AnsweredQuizFragment.OnFragmentInteractionListener {
 
     private ActionBarDrawerToggle mDrawerToggle;
     private CharSequence mDrawerTitle;
@@ -149,10 +155,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new OfficeFragment();
                 break;
             case R.id.navigation_item_answered_quizzes:
-                fragment = new OfficeFragment();
+                fragment = new AnsweredQuizFragment();
                 break;
             case R.id.navigation_sub_item_about:
-                fragment = new AboutFragment();
+                startActivity(new Intent(this, AboutActivity.class));
                 break;
             case R.id.navigation_sub_item_options:
                 //menuItem.setChecked(false);
@@ -262,12 +268,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.commit();
     }
 
+    @Override
+    public void onAnsweredQuizSelected(Quiz q) {
+        Toast.makeText(getApplicationContext(), "Quiz "+q.getmName(), Toast.LENGTH_SHORT).show();
+    }
+
     private void launchTutorialAtFirstStart() {
         // First launch tutorial slider
         //SharedPreferences pref = getSharedPreferences(getString(R.string.preference_file_tutorial), Context.MODE_PRIVATE);
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
-        //if (!pref.getBoolean("appFirstLaunch", false)) {
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean("appFirstLaunch", true);
             editor.putBoolean(getString(R.string.pref_tutorial_key), false);

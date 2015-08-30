@@ -49,11 +49,6 @@ public class QuestionFragment extends Fragment {
     private MobileServiceList<Answer> mMSLAnswers;
 
     /**
-     * A list of questions retrieve from Azure Mobile Service
-     */
-    private MobileServiceList<Question> mMSLQuestion;
-
-    /**
      * The current question
      */
     private Question mQuestion;
@@ -274,8 +269,7 @@ public class QuestionFragment extends Fragment {
                 try {
                     Log.e(TAG, "Getting Answers for quiz ID : "+mQuizId);
 
-                    mMSLQuestion = DataHelper.getQuestionByQuizId(mQuizId);
-                    mQuestion = mMSLQuestion.get(0);
+                    mQuestion = DataHelper.getQuestionByQuizId(mQuizId);
 
                     Log.e(TAG, "Question is : " + mQuestion.getmText());
 
@@ -314,8 +308,7 @@ public class QuestionFragment extends Fragment {
                 try {
                     Log.e(TAG, "Getting Answers for question : "+mQuestionId);
 
-                    mMSLQuestion = DataHelper.getQuestionById(mQuestionId);
-                    mQuestion = mMSLQuestion.get(0);
+                    mQuestion = DataHelper.getQuestionById(mQuestionId);
 
                     Log.e(TAG, "Question is : " + mQuestion.getmText());
 

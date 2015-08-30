@@ -8,6 +8,11 @@
     <!-- Example General settings -->
     <string name="pref_header_general">General</string>
 
+    <string name="preference_file_tutorial">com.dsv.tourism.PREFERENCE_TUTORIAL</string>
+
+    <!-- Tourist reference -->
+    <string name="preference_tourist_reference">com.dsv.tourism.TOURIST_REFERENCE</string>
+
     <!-- Tourist birth date -->
     <string name="pref_age_key">com.dsv.tourism.PREF_AGE_KEY</string>
 

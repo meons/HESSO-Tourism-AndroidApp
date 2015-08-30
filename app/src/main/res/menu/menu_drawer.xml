@@ -32,7 +32,8 @@
         android:id="@+id/sub_items">
         <item
             android:id="@+id/navigation_sub_item_about"
-            android:title="@string/drawer_sub_item_about"/>
+            android:title="@string/drawer_sub_item_about"
+            android:checkable="false"/>
         <item
             android:id="@+id/navigation_sub_item_options"
             android:title="@string/drawer_sub_item_options"

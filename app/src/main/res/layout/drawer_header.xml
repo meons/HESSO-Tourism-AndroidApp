@@ -31,9 +31,7 @@
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="end|top|center"
-
             android:background="@drawable/ic_replay_white_36dp"/>
-
         <LinearLayout
             android:id="@+id/headerText"
             android:layout_width="match_parent"

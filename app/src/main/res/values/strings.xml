@@ -41,8 +41,9 @@
     
 
     <!-- Shared preferences -->
-    <string name="preference_file_tutorial">com.dsv.tourism.PREFERENCE_TUTORIAL</string>
-    <string name="preference_tourist_reference">com.dsv.tourism.TOURIST_REFERENCE</string>
     <string name="title_activity_question">QuestionActivity</string>
+    <string name="title_activity_about">AboutActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

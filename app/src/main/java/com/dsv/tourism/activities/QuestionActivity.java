@@ -1,8 +1,10 @@
 package com.dsv.tourism.activities;
 
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Result;
+import com.dsv.tourism.model.Tourist;
 
 import java.sql.Date;
 import java.util.HashMap;
@@ -31,6 +34,11 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
     private HashMap<Integer, Integer> quizAnswers = new HashMap<Integer, Integer>();
 
     private int mQuizId;
+
+    private Tourist mTourist;
+
+    private SharedPreferences mSharedPreferences;
+
     /**
      * Used to identify class when logging
      */
@@ -115,10 +123,9 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         } else {
             // Next question is NULL, so that is quiz end. Now send results and display a message
             // to the user
-            Toast.makeText(getApplicationContext(), "END OF QUIZ !", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "END OF QUIZ ! ADD A NEW FRAME TO SHOW RESULTS", Toast.LENGTH_SHORT).show();
 
             //Fragment questionFragment = new FragmentQuest
-
             insertResult(quizAnswers);
 
             this.finish();
@@ -139,7 +146,24 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 	        @Override
 	        protected Void doInBackground(Void... params) {
 	            try {
+                    java.util.Date utilDate = new java.util.Date();
 
+                    // get tourist or add it
+                    mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    String touristReference = mSharedPreferences.getString(getString(R.string.preference_tourist_reference), "NA");
+                    mTourist = DataHelper.getTouristByReference(touristReference);
+
+                    // No tourist in database, save it !
+                    if(null == mTourist) {
+                        Tourist t = new Tourist();
+                        t.setmReference(touristReference);
+                        t.setmCreationDate(new java.sql.Timestamp(utilDate.getTime()));
+                        DataHelper.addTourist(t);
+
+                        mTourist = DataHelper.getTouristByReference(touristReference);
+                    }
+
+                    // Add results
                     for (Map.Entry<Integer, Integer> r : results.entrySet()) {
                         Integer answerId = r.getKey();
                         Integer quizId = r.getValue();
@@ -148,17 +172,16 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                         result.setmAnswerId(answerId);
                         result.setmQuizId(quizId);
 
-                        // TODO: Set correct tourist ID
-                        result.setmTouristId(1);
+                        result.setmTouristId(mTourist.getmId());
 
                         // save result
                         DataHelper.addResult(result);
                     }
 
+                    // Add participation
                     Participation p = new Participation();
-                    p.setmTouristId(1);
+                    p.setmTouristId(mTourist.getmId());
                     p.setmQuizId(mQuizId);
-                    java.util.Date utilDate = new java.util.Date();
                     p.setmCreatedAt(new java.sql.Timestamp(utilDate.getTime()));
 
                     // save participation
