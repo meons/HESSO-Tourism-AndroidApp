@@ -23,6 +23,7 @@ import com.dsv.tourism.activities.QuestionActivity;
 import com.dsv.tourism.adapter.QuizAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Quiz;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 public class QuizFragment extends Fragment implements AbsListView.OnItemClickListener {
@@ -48,6 +49,8 @@ public class QuizFragment extends Fragment implements AbsListView.OnItemClickLis
      * for example on phone rotate
      */
     int mCurrentOfficeId = -1;
+
+    private CircularProgressView circularProgressView;
 
     /**
      * The argument passed to this fragments. Can be call from it's fragment activity,
@@ -99,6 +102,10 @@ public class QuizFragment extends Fragment implements AbsListView.OnItemClickLis
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+            // get the progress view indicator and set it as visible
+            circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
+            circularProgressView.setVisibility(View.GONE);
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_quiz, container, false);
     }
@@ -106,6 +113,8 @@ public class QuizFragment extends Fragment implements AbsListView.OnItemClickLis
     @Override
     public void onStart() {
         super.onStart();
+
+        circularProgressView.setVisibility(View.VISIBLE);
 
         // During startup, check if there are arguments passed to the fragment.
         // onStart is a good place to do this because the layout has already been
@@ -169,6 +178,8 @@ public class QuizFragment extends Fragment implements AbsListView.OnItemClickLis
                             for (Quiz q : mMSLQuizzes) {
                                 mAdapter.add(q);
                             }
+
+                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception exception) {

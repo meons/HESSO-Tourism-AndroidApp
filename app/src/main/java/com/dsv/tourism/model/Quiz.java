@@ -1,5 +1,7 @@
 package com.dsv.tourism.model;
 
+import java.sql.Date;
+
 /**
  * Created by Vince on 24.08.2015.
  */
@@ -16,6 +18,10 @@ public class Quiz {
      */
     @com.google.gson.annotations.SerializedName("name")
     private String mName;
+
+    private Date mAnsweredDate;
+
+    private int mTouristId;
 
     public Quiz(Integer mId, String mName) {
         this.mId = mId;
@@ -36,5 +42,21 @@ public class Quiz {
 
     public void setmName(String mName) {
         this.mName = mName;
+    }
+
+    public Date getmAnsweredDate() {
+        return mAnsweredDate;
+    }
+
+    public void setmAnsweredDate(Date mAnsweredDate) {
+        this.mAnsweredDate = mAnsweredDate;
+    }
+
+    public int getmTouristId() {
+        return mTouristId;
+    }
+
+    public void setmTouristId(int mTouristId) {
+        this.mTouristId = mTouristId;
     }
 }

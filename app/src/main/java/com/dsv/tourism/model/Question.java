@@ -22,9 +22,17 @@ public class Question {
     @com.google.gson.annotations.SerializedName("quiz_id")
     private Integer mQuizId;
 
-    public Question(Integer mId, String mText) {
+    /**
+     * Answer score
+     */
+    @com.google.gson.annotations.SerializedName("category_id")
+    private Integer mCategoryId;
+
+    public Question(Integer mId, String mText, Integer mQuizId, Integer mCategoryId) {
         this.mId = mId;
         this.mText = mText;
+        this.mQuizId = mQuizId;
+        this.mCategoryId = mCategoryId;
     }
 
     public Integer getmId() {
@@ -49,5 +57,13 @@ public class Question {
 
     public void setmQuizId(Integer mQuizId) {
         this.mQuizId = mQuizId;
+    }
+
+    public Integer getmCategoryId() {
+        return mCategoryId;
+    }
+
+    public void setmCategoryId(Integer mCategoryId) {
+        this.mCategoryId = mCategoryId;
     }
 }

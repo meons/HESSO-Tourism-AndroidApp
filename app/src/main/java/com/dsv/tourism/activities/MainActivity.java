@@ -258,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements
         args.putInt(QuizFragment.ARG_OFFICE_ID, o.getmId());
         newFragment.setArguments(args);
         FragmentTransaction transaction = mSupportFragmentManager.beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back

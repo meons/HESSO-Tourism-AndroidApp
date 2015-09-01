@@ -31,6 +31,12 @@ public class Answer {
     /**
      * Answer score
      */
+    @com.google.gson.annotations.SerializedName("question_id")
+    private Integer mQuestionId;
+
+    /**
+     * Answer score
+     */
     @com.google.gson.annotations.SerializedName("next_question_id")
     private Integer mNextQuestionId;
 
@@ -74,6 +80,14 @@ public class Answer {
 
     public void setmScore(Integer mScore) {
         this.mScore = mScore;
+    }
+
+    public Integer getmQuestionId() {
+        return mQuestionId;
+    }
+
+    public void setmQuestionId(Integer mQuestionId) {
+        this.mQuestionId = mQuestionId;
     }
 
     public Integer getmNextQuestionId() {

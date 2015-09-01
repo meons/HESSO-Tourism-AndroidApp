@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.dsv.tourism.activities.QuestionActivity">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/question_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,6 +12,16 @@
         android:layout_gravity="center"
         android:background="@android:color/white">
 
-    </RelativeLayout>
+        <com.github.rahatarmanahmed.cpv.CircularProgressView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/progress_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center|center"
+            android:visibility="gone"
+            app:cpv_animAutostart="true"
+            app:cpv_indeterminate="true" />
+
+    </FrameLayout>
 
 </RelativeLayout>

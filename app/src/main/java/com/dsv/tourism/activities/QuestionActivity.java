@@ -112,6 +112,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             // Create fragment and give it an argument for the selected article
             Fragment questionFragment = QuestionFragment.newInstance(a.getmNextQuestionId());
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back

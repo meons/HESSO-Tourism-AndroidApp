@@ -2,14 +2,10 @@ package com.dsv.tourism.azure;
 
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
 
-import com.dsv.tourism.R;
-import com.dsv.tourism.adapter.OfficeAdapter;
 import com.dsv.tourism.model.Answer;
+import com.dsv.tourism.model.Category;
 import com.dsv.tourism.model.Office;
 import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Question;
@@ -20,10 +16,12 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.Query;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 
 import java.net.MalformedURLException;
+import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 
 
@@ -105,16 +103,57 @@ public class DataHelper {
         Tourist t = tourists.get(0);
 
         MobileServiceTable<Participation> mParticipationTable = mClient.getTable("participation", Participation.class);
-        MobileServiceList<Participation> participation = mParticipationTable.where().field("tourist_id").eq(t.getmId()).execute().get();
+        MobileServiceList<Participation> participation = mParticipationTable.where().field("tourist_id").eq(t.getmId()).orderBy("created_at", QueryOrder.Descending).execute().get();
 
         ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
         MobileServiceTable<Quiz> mQuizTable = mClient.getTable("quiz", Quiz.class);
         for (Participation p : participation) {
             MobileServiceList<Quiz> quiz = mQuizTable.where().field("id").eq(p.getmQuizId()).top(1).execute().get();
-            quizzes.add(quiz.get(0));
+            Quiz q = quiz.get(0);
+            q.setmAnsweredDate(new Date(p.getmCreatedAt().getTime()));
+            q.setmTouristId(t.getmId());
+
+            quizzes.add(q);
         }
 
         return quizzes;
+    }
+
+    public static HashMap<String, Integer> getResultByTouristAndQuizId(int touristId, int quizId) throws MobileServiceException, ExecutionException, InterruptedException {
+        MobileServiceTable<Result> mResultTable = mClient.getTable("result", Result.class);
+
+        MobileServiceList<Result> results = mResultTable.where().field("quiz_id").eq(quizId).and().field("tourist_id").eq(touristId).execute().get();
+        HashMap<String, Integer> scores = new HashMap<>();
+
+        Log.e("Result", "Result size: " + results.size());
+
+        int score = 0;
+
+        MobileServiceTable<Answer> mAnswerTable = mClient.getTable("answer", Answer.class);
+        MobileServiceTable<Question> mQuestionTable = mClient.getTable("question", Question.class);
+        MobileServiceTable<Category> mCategoryTable = mClient.getTable("category", Category.class);
+
+
+        for (Result r : results) {
+            MobileServiceList<Answer> answers = mAnswerTable.where().field("id").eq(r.getmAnswerId()).top(1).execute().get();
+            Answer a = answers.get(0);
+
+            MobileServiceList<Question> questions = mQuestionTable.where().field("id").eq(a.getmQuestionId()).top(1).execute().get();
+            Question q = questions.get(0);
+
+            MobileServiceList<Category> categories = mCategoryTable.where().field("id").eq(q.getmCategoryId()).top(1).execute().get();
+            Category c = categories.get(0);
+
+            score = a.getmScore();
+
+            if (scores.get(c.getmName()) == null) {
+                scores.put(c.getmName(), 0);
+            }
+
+            scores.put(c.getmName(), scores.get(c.getmName()) + score);
+        }
+
+        return scores;
     }
 
     /**

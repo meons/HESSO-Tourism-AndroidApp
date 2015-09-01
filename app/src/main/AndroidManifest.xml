@@ -31,6 +31,10 @@
             android:label="@string/title_activity_question" >
         </activity>
         <activity
+            android:name=".activities.ResultActivity"
+            android:label="@string/title_activity_result" >
+        </activity>
+        <activity
             android:name=".activities.AboutActivity"
             android:label="@string/title_activity_about" >
         </activity>

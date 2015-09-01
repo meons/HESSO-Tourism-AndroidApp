@@ -22,6 +22,7 @@ import com.dsv.tourism.adapter.AnswerAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Question;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 import java.util.ArrayList;
@@ -76,6 +77,8 @@ public class QuestionFragment extends Fragment {
      */
     int mCurrentNextQuestionId = -1;
     int mCurrentNextQuestionIdTest;
+
+    private CircularProgressView circularProgressView;
 
     /**
      * The argument passed to this fragments. Can be call from it's fragment activity,
@@ -136,6 +139,11 @@ public class QuestionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_question, container, false);
 
 
+        // get the progress view indicator and set it as visible
+        circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
+        circularProgressView.setVisibility(View.GONE);
+
+
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.anim_toolbar);
 
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
@@ -170,6 +178,9 @@ public class QuestionFragment extends Fragment {
     }
 
     public void updateQuestion() {
+
+        circularProgressView.setVisibility(View.VISIBLE);
+
         Bundle args = getArguments();
         if (args != null) {
             if(mNextQuestionId != -1) {
@@ -279,6 +290,7 @@ public class QuestionFragment extends Fragment {
                             mTextViewQuestion.setText(mQuestion.getmText());
 
                             refreshAnswerListFromTable(mQuestion.getmId());
+                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception exception) {
@@ -309,15 +321,13 @@ public class QuestionFragment extends Fragment {
                     Log.e(TAG, "Getting Answers for question : "+mQuestionId);
 
                     mQuestion = DataHelper.getQuestionById(mQuestionId);
-
-                    Log.e(TAG, "Question is : " + mQuestion.getmText());
+                    refreshAnswerListFromTable(mQuestion.getmId());
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mTextViewQuestion.setText(mQuestion.getmText());
-
-                            refreshAnswerListFromTable(mQuestion.getmId());
+                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception exception) {

@@ -39,6 +39,8 @@
     <dimen name="list_padding_left">16dp</dimen>
     <dimen name="list_padding_right">16dp</dimen>
     <dimen name="list_row_height">48dp</dimen>
+    <dimen name="list_two_row_height">72dp</dimen>
+    <dimen name="list_two_row_text_padding">20dp</dimen>
 
     <!-- collapsing toolbar -->
     <dimen name="collapsing_tb_question_margin_left">60dp</dimen>

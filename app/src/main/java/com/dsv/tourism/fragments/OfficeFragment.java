@@ -114,7 +114,7 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
 
         // get the progress view indicator and set it as visible
         circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
-        circularProgressView.setVisibility(View.VISIBLE);
+        circularProgressView.setVisibility(View.GONE);
 
         // Set the adapter to the office list
         mListView = (AbsListView) view.findViewById(android.R.id.list);
@@ -124,6 +124,7 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
         mListView.setOnItemClickListener(this);
 
         // get data from Azure mobile service and update the listview by adding rows to adapter
+        circularProgressView.setVisibility(View.VISIBLE);
         refreshOfficeListFromTable();
 
         return view;
@@ -195,6 +196,8 @@ public class OfficeFragment extends Fragment implements AbsListView.OnItemClickL
             protected Void doInBackground(Void... params) {
                 try {
                     //final MobileServiceList<Office> offices = DataHelper.getOffices();
+
+
                     offices = DataHelper.getOffices();
 
                     getActivity().runOnUiThread(new Runnable() {

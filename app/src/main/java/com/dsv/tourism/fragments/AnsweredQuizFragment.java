@@ -1,6 +1,7 @@
 package com.dsv.tourism.fragments;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,19 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.dsv.tourism.R;
-import com.dsv.tourism.adapter.OfficeAdapter;
-import com.dsv.tourism.adapter.ParticipationAdapter;
-import com.dsv.tourism.adapter.QuizAdapter;
+import com.dsv.tourism.activities.ResultActivity;
+import com.dsv.tourism.adapter.AnsweredQuizAdapter;
 import com.dsv.tourism.azure.DataHelper;
-import com.dsv.tourism.fragments.dummy.DummyContent;
-import com.dsv.tourism.model.Office;
 import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Quiz;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 import java.util.ArrayList;
@@ -63,9 +61,11 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private QuizAdapter mAdapter;
+    private AnsweredQuizAdapter mAdapter;
 
     private SharedPreferences mSharedPreference;
+
+    private CircularProgressView circularProgressView;
 
     /**
      * Used to identify class when logging
@@ -102,7 +102,7 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
         }
 
         // create the adapter for offices list
-        mAdapter = new QuizAdapter(getActivity(), R.layout.row_list_quiz);
+        mAdapter = new AnsweredQuizAdapter(getActivity(), R.layout.row_list_answered_quiz);
 
         mSharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
@@ -117,7 +117,12 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
         ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
-        //mListView.setOnItemClickListener(this);
+        mListView.setOnItemClickListener(this);
+
+
+        // get the progress view indicator and set it as visible
+        circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
+        circularProgressView.setVisibility(View.GONE);
 
         return view;
     }
@@ -126,6 +131,7 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
     public void onStart() {
         super.onStart();
 
+        circularProgressView.setVisibility(View.VISIBLE);
         refreshAnsweredQuizListFromTable();
     }
 
@@ -162,9 +168,16 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
+
+            Quiz q = quizzes.get(position);
+
+            Intent intent = new Intent(getActivity(), ResultActivity.class);
+            intent.putExtra(ResultActivity.ARG_QUIZ_ID, q.getmId());
+            intent.putExtra(ResultActivity.ARG_TOURIST_ID, q.getmTouristId());
+            startActivity(intent);
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onAnsweredQuizSelected(quizzes.get(position));
+            //mListener.onAnsweredQuizSelected(quizzes.get(position));
         }
     }
 
@@ -206,6 +219,8 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
                             for (Quiz q : quizzes) {
                                 mAdapter.add(q);
                             }
+
+                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception exception) {
