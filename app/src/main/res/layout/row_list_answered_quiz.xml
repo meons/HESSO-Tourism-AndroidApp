@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:height="@dimen/list_two_row_height">
+
+        <TextView
+            android:id="@+id/row_quiz_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:paddingLeft="@dimen/list_padding_left"
+            android:paddingRight="@dimen/list_padding_right"
+            android:layout_gravity="center_vertical"
+            android:text="Office"
+            android:paddingTop="@dimen/list_two_row_text_padding"
+            android:textColor="@color/text_primary"
+            android:gravity="center_vertical" />
+        <TextView
+            android:id="@+id/row_quiz_answered_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:paddingLeft="@dimen/list_padding_left"
+            android:paddingRight="@dimen/list_padding_right"
+            android:paddingBottom="@dimen/list_two_row_text_padding"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
