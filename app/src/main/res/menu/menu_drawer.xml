@@ -8,11 +8,11 @@
         <item
             android:checked="true"
             android:id="@+id/navigation_item_quizzes"
-            android:icon="@drawable/ic_apps"
+            android:icon="@drawable/ic_routes_grey600_24dp"
             android:title="@string/drawer_item_quizzes"/>
         <item
             android:id="@+id/navigation_item_answered_quizzes"
-            android:icon="@drawable/ic_sales"
+            android:icon="@drawable/ic_check_all_grey600_24dp"
             android:title="@string/drawer_item_answered_quizzes"/>
         <!--
         <item

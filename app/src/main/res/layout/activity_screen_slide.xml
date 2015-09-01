@@ -32,18 +32,18 @@
         android:layout_gravity="end|bottom|center"
         android:id="@+id/arrow_forward"
         android:background="?selectableItemBackground"
-        android:layout_width="62.0dip"
+        android:layout_width="wrap_content"
         android:layout_height="62.0dip"
-        android:src="@drawable/ic_action_chevron_right" />
+        android:src="@drawable/ic_chevron_right_white_36dp" />
 
     <ImageButton
         android:layout_gravity="start|bottom|center"
         android:id="@+id/arrow_backward"
         android:background="?selectableItemBackground"
-        android:layout_width="62.0dip"
+        android:layout_width="wrap_content"
         android:layout_height="62.0dip"
         android:visibility="invisible"
-        android:src="@drawable/ic_action_chevron_left" />
+        android:src="@drawable/ic_chevron_left_white_36dp" />
 
     <Button android:textAppearance="@style/TextAppearance.AppCompat.Button"
         android:textColor="@android:color/white"
