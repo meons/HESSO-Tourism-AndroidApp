@@ -22,13 +22,15 @@
             app:expandedTitleMarginStart="@dimen/collapsing_tb_question_margin_left"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:layout_collapseMode="parallax">
+
+
             <ImageView
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/header_image_mountains"
                 android:fitsSystemWindows="true"
-                android:scaleType="center"
+                android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax" />
 
             <ImageView
