@@ -171,6 +171,7 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
 
             Quiz q = quizzes.get(position);
 
+            Log.i(TAG, "Crate activity with param : " + q.getmParticipationId());
             Intent intent = new Intent(getActivity(), ResultActivity.class);
             intent.putExtra(ResultActivity.ARG_PARTICIPATION_ID, q.getmParticipationId());
             //intent.putExtra(ResultActivity.ARG_TOURIST_ID, q.getmTouristId());

@@ -10,6 +10,7 @@ import com.dsv.tourism.model.Office;
 import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Quiz;
+import com.dsv.tourism.model.Recommendation;
 import com.dsv.tourism.model.Result;
 import com.dsv.tourism.model.Tourist;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -118,6 +119,21 @@ public class DataHelper {
 
         return quizzes;
     }
+
+    public static MobileServiceList<Recommendation> getRecommendationsByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
+
+
+        // get the participation
+        MobileServiceTable<Participation> mParticipationTable = mClient.getTable("participation", Participation.class);
+        MobileServiceList<Participation> participation = mParticipationTable.where().field("id").eq(participationId).top(1).execute().get();
+        Participation p = participation.get(0);
+
+        MobileServiceTable<Recommendation> mRecommendationTable = mClient.getTable("recommendation", Recommendation.class);
+        MobileServiceList<Recommendation> recommendations = mRecommendationTable.where().field("quiz_id").eq(p.getmQuizId()).execute().get();
+
+        return recommendations;
+    }
+
 
     public static HashMap<String, Integer> getResultByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
 

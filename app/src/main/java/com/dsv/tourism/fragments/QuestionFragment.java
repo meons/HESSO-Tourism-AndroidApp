@@ -278,21 +278,18 @@ public class QuestionFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    Log.e(TAG, "Getting Answers for quiz ID : "+mQuizId);
-
+                    Log.i(TAG, "Retrieving the question for the quiz with ID : "+ mQuizId);
                     mQuestion = DataHelper.getQuestionByQuizId(mQuizId);
 
-                    Log.e(TAG, "Question is : " + mQuestion.getmText());
-
+                    Log.i(TAG, "Retrieved question for the quiz with ID " + mQuizId + " is : " + mQuestion.getmText());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             mTextViewQuestion.setText(mQuestion.getmText());
-
-                            refreshAnswerListFromTable(mQuestion.getmId());
-                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
+
+                    refreshAnswerListFromTable(mQuestion.getmId());
                 } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
                 }
@@ -318,7 +315,7 @@ public class QuestionFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    Log.e(TAG, "Getting Answers for question : "+mQuestionId);
+                    Log.i(TAG, "Retrieving answers for the question with ID : " + mQuestionId);
 
                     mQuestion = DataHelper.getQuestionById(mQuestionId);
                     refreshAnswerListFromTable(mQuestion.getmId());
@@ -327,7 +324,6 @@ public class QuestionFragment extends Fragment {
                         @Override
                         public void run() {
                             mTextViewQuestion.setText(mQuestion.getmText());
-                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception exception) {
@@ -337,7 +333,6 @@ public class QuestionFragment extends Fragment {
             }
         }.execute();
     }
-
 
     /**
      * Refresh the list with the items in the Mobile Service Table
@@ -354,9 +349,8 @@ public class QuestionFragment extends Fragment {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    Log.e(TAG, "Getting Answers for question : "+id);
+                    Log.i(TAG, "Getting Answers for question with ID : " + id);
                     mMSLAnswers = DataHelper.getAnswersByQuestionId(id);
-                    Log.e(TAG, "Answers length is : " + mMSLAnswers.size());
 
                     getActivity().runOnUiThread(new Runnable() {
 
@@ -368,6 +362,7 @@ public class QuestionFragment extends Fragment {
                             }
 
                             mAdapter.notifyDataSetChanged();
+                            circularProgressView.setVisibility(View.GONE);
                         }
                     });
                 } catch (Exception exception) {
