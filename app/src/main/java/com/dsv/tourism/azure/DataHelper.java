@@ -101,6 +101,11 @@ public class DataHelper {
     public static ArrayList<Quiz> getQuizzesByTouristReference(String reference) throws MobileServiceException, ExecutionException, InterruptedException {
         MobileServiceTable<Tourist> mTouristTable = mClient.getTable("tourist", Tourist.class);
         MobileServiceList<Tourist> tourists = mTouristTable.where().field("reference").eq(reference).top(1).execute().get();
+
+        if(null == tourists || tourists.isEmpty()) {
+            return null;
+        }
+
         Tourist t = tourists.get(0);
 
         MobileServiceTable<Participation> mParticipationTable = mClient.getTable("participation", Participation.class);
@@ -137,7 +142,6 @@ public class DataHelper {
 
     public static HashMap<String, Integer> getResultByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
 
-        Log.e("Result", "Getting Results from participation :"+participationId);
         // get the participation
         MobileServiceTable<Participation> mParticipationTable = mClient.getTable("participation", Participation.class);
         MobileServiceList<Participation> participation = mParticipationTable.where().field("id").eq(participationId).top(1).execute().get();
@@ -146,8 +150,6 @@ public class DataHelper {
         MobileServiceTable<Result> mResultTable = mClient.getTable("result", Result.class);
         MobileServiceList<Result> results = mResultTable.where().field("participation_id").eq(p.getmId()).execute().get();
         HashMap<String, Integer> scores = new HashMap<>();
-
-        Log.e("Result", "Result size: " + results.size());
 
         int score = 0;
 

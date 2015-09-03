@@ -1,6 +1,5 @@
 package com.dsv.tourism.model;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**

@@ -1,13 +1,9 @@
 package com.dsv.tourism.adapter;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
-import com.dsv.tourism.activities.ResultActivity;
-import com.dsv.tourism.fragments.QuizFragment;
 import com.dsv.tourism.fragments.TabRecommendationFragment;
 import com.dsv.tourism.fragments.TabResultFragment;
 
@@ -30,12 +26,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 TabRecommendationFragment tab1 = TabRecommendationFragment.newInstance(mParticipationId);
-
                 return tab1;
-
             case 1:
                 TabResultFragment tab2 = TabResultFragment.newInstance(mParticipationId);
-
                 return tab2;
             default:
                 return null;

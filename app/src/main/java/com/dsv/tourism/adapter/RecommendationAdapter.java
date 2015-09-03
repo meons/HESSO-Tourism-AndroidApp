@@ -4,10 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.dsv.tourism.R;
-import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Recommendation;
 
 import java.util.List;
@@ -41,6 +41,9 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
                 inflate(R.layout.row_list_recommendation, viewGroup, false);
+
+        itemView.startAnimation(AnimationUtils.loadAnimation(viewGroup.getContext(), R.anim.abc_slide_in_bottom));
+        itemView.setVisibility(View.VISIBLE);
 
         return new AnswerViewHolder(itemView);
     }

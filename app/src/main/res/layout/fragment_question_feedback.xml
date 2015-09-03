@@ -1,59 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/background"
-    android:background="@color/tutorial_background"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical" >
 
-    <RelativeLayout
-        android:orientation="vertical"
-        android:id="@+id/swipe_tut"
-        android:visibility="visible"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <LinearLayout android:orientation="vertical"
-            android:id="@+id/pocket1"
-            android:paddingTop="32.0dip"
-            android:layout_width="fill_parent"
-            android:layout_height="200.0dip"
-            android:layout_alignParentBottom="true">
-            <TextView android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textSize="22.0sp"
-                android:textColor="@android:color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32.0dip"
-                android:text="Thank you !"
-                android:textAlignment="center"/>
-            <TextView android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32.0dip"
-                android:layout_marginTop="8.0dip"
-                android:layout_marginRight="72.0dip"
-                android:text="Please, keep in mind your reference number."
-                android:alpha="0.8" />
-            <TextView android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="32.0dip"
-                android:layout_marginTop="8.0dip"
-                android:layout_marginRight="72.0dip"
-                android:text="HG7898"
-                android:textSize="@dimen/material_text_headline"
-                android:textColor="@color/text_white"
-                android:fontFamily="sans-serif-regular"
-                android:alpha="0.8" />
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:orientation="vertical" >
         <ImageView
-            android:layout_width="150.0dip"
-            android:layout_height="150.0dip"
-            android:gravity="center_vertical"
-            android:layout_centerVertical="true"
-            android:layout_centerInParent="true"
-            android:src="@drawable/identity_card"
-            />
-    </RelativeLayout>
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center|center"
+            android:layout_marginBottom="32dp"
+            android:src="@drawable/ic_check_grey600_48dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/text_primary"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:text="Done !" />
 
-</FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="@color/text_secondary"
+            android:gravity="center_horizontal"
+            android:layout_marginBottom="32dp"
+            android:text="Thank you for answering the quiz. We will call you with your reference number." />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_see_results"
+                android:layout_height="wrap_content"
+                android:text="See results"
+                android:minWidth="88dp"
+                android:padding="16dp"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:background="@drawable/raised_button"/>
+
+            <Button
+                android:id="@+id/button_answer_an_other_quiz"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"
+                android:text="Answer an other quiz"
+                android:minWidth="88dp"
+                android:padding="16dp"
+                android:background="@drawable/raised_button"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>

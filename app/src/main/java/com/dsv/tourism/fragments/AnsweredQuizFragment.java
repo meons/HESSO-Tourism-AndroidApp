@@ -212,18 +212,26 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
                     String touristReference = mSharedPreference.getString(getString(R.string.preference_tourist_reference), "NA");
                     quizzes = DataHelper.getQuizzesByTouristReference(touristReference);
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mAdapter.clear();
+                    if(null != quizzes) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mAdapter.clear();
 
-                            for (Quiz q : quizzes) {
-                                mAdapter.add(q);
+                                for (Quiz q : quizzes) {
+                                    mAdapter.add(q);
+                                }
+
+                                circularProgressView.setVisibility(View.GONE);
                             }
-
-                            circularProgressView.setVisibility(View.GONE);
-                        }
-                    });
+                        });
+                    } else {
+                        NoDataFragment nextFrag= new NoDataFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.main_content, nextFrag)
+                                .addToBackStack(null)
+                                .commit();
+                    }
                 } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
                 }

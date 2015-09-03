@@ -11,10 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.azure.DataHelper;
+import com.dsv.tourism.fragments.QuestionFeedbackFragment;
 import com.dsv.tourism.fragments.QuestionFragment;
 import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Participation;
@@ -22,7 +22,6 @@ import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Result;
 import com.dsv.tourism.model.Tourist;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +42,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
     private SharedPreferences mSharedPreferences;
 
+    private Participation mParticipation;
     /**
      * Used to identify class when logging
      */
@@ -128,12 +128,11 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         } else {
             // Next question is NULL, so that is quiz end. Now send results and display a message
             // to the user
-            Toast.makeText(getApplicationContext(), "END OF QUIZ ! ADD A NEW FRAME TO SHOW RESULTS", Toast.LENGTH_SHORT).show();
 
             //Fragment questionFragment = new FragmentQuest
             insertResult(quizAnswers);
 
-            this.finish();
+            //this.finish();
         }
     }
 
@@ -186,7 +185,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                     p.setmCreatedAt(new java.sql.Timestamp(utilDate.getTime()));
 
                     // save participation
-                    Participation participation = DataHelper.addParticipation(p);
+                    mParticipation = DataHelper.addParticipation(p);
 
                     // Add results
                     for (Map.Entry<Integer, Integer> r : results.entrySet()) {
@@ -195,7 +194,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
                         Result result = new Result();
                         result.setmAnswerId(answerId);
-                        result.setmParticipationId(participation.getmId());
+                        result.setmParticipationId(mParticipation.getmId());
 
                         result.setmTouristId(mTourist.getmId());
 
@@ -203,7 +202,18 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                         DataHelper.addResult(result);
                     }
 
-	            } catch (Exception exception) {
+                    QuestionFeedbackFragment questionFeedbackFragment = QuestionFeedbackFragment.newInstance(mParticipation.getmId());
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+                    // Replace whatever is in the fragment_container view with this fragment,
+                    // and add the transaction to the back stack so the user can navigate back
+                    transaction.replace(R.id.question_content, questionFeedbackFragment);
+                    transaction.addToBackStack(null);
+
+                    // Commit the transaction
+                    transaction.commit();
+
+                } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
 	            }
 	            return null;

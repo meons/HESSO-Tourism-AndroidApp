@@ -11,10 +11,7 @@ import android.widget.TextView;
 import com.dsv.tourism.R;
 import com.dsv.tourism.model.Quiz;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
 /**

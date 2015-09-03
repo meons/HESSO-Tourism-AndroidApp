@@ -1,6 +1,5 @@
 package com.dsv.tourism.helpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -8,7 +7,6 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import com.dsv.tourism.activities.MainActivity;
-import com.dsv.tourism.activities.SettingsActivity;
 
 import java.util.Locale;
 

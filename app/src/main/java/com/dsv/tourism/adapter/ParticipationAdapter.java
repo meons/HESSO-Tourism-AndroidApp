@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.model.Participation;
-import com.dsv.tourism.model.Quiz;
 
 /**
  * Created by Vince on 24.08.2015.

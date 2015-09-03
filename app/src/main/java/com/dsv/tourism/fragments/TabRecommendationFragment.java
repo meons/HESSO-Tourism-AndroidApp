@@ -11,13 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.dsv.tourism.R;
-import com.dsv.tourism.adapter.AnswerAdapter;
 import com.dsv.tourism.adapter.RecommendationAdapter;
 import com.dsv.tourism.azure.DataHelper;
-import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Recommendation;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 

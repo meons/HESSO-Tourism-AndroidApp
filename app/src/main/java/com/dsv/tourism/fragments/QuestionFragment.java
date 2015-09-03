@@ -13,20 +13,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.view.animation.AlphaAnimation;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.AnswerAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Question;
-import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -59,6 +56,10 @@ public class QuestionFragment extends Fragment {
     private Integer mQuestionId;
     private Integer mNextQuestionId;
 
+    private RecyclerView recList;
+    private AlphaAnimation fadeIn;
+    private AlphaAnimation fadeOut;
+
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -78,7 +79,7 @@ public class QuestionFragment extends Fragment {
     int mCurrentNextQuestionId = -1;
     int mCurrentNextQuestionIdTest;
 
-    private CircularProgressView circularProgressView;
+    //private CircularProgressView circularProgressView;
 
     /**
      * The argument passed to this fragments. Can be call from it's fragment activity,
@@ -140,8 +141,8 @@ public class QuestionFragment extends Fragment {
 
 
         // get the progress view indicator and set it as visible
-        circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
-        circularProgressView.setVisibility(View.GONE);
+        //circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
+        //circularProgressView.setVisibility(View.VISIBLE);
 
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.anim_toolbar);
@@ -168,8 +169,16 @@ public class QuestionFragment extends Fragment {
         // applied to the fragment at this point so we can safely call the method
         // below that sets the article text.
         mTextViewQuestion = (TextView) getActivity().findViewById(R.id.question);
+        fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
+        fadeOut = new AlphaAnimation( 1.0f , 0.0f ) ;
+        fadeIn.setDuration(800);
+        fadeIn.setFillAfter(true);
+        fadeOut.setDuration(1200);
+        fadeOut.setFillAfter(true);
+        fadeOut.setStartOffset(1200 + fadeIn.getStartOffset());
 
-        RecyclerView recList = (RecyclerView) getActivity().findViewById(R.id.answer_list);
+
+        recList = (RecyclerView) getActivity().findViewById(R.id.answer_list);
         recList.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -179,7 +188,7 @@ public class QuestionFragment extends Fragment {
 
     public void updateQuestion() {
 
-        circularProgressView.setVisibility(View.VISIBLE);
+        //circularProgressView.setVisibility(View.VISIBLE);
 
         Bundle args = getArguments();
         if (args != null) {
@@ -281,14 +290,6 @@ public class QuestionFragment extends Fragment {
                     Log.i(TAG, "Retrieving the question for the quiz with ID : "+ mQuizId);
                     mQuestion = DataHelper.getQuestionByQuizId(mQuizId);
 
-                    Log.i(TAG, "Retrieved question for the quiz with ID " + mQuizId + " is : " + mQuestion.getmText());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewQuestion.setText(mQuestion.getmText());
-                        }
-                    });
-
                     refreshAnswerListFromTable(mQuestion.getmId());
                 } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
@@ -320,12 +321,6 @@ public class QuestionFragment extends Fragment {
                     mQuestion = DataHelper.getQuestionById(mQuestionId);
                     refreshAnswerListFromTable(mQuestion.getmId());
 
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mTextViewQuestion.setText(mQuestion.getmText());
-                        }
-                    });
                 } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
                 }
@@ -357,12 +352,18 @@ public class QuestionFragment extends Fragment {
                         @Override
                         public void run() {
 
+                            mTextViewQuestion.setText(mQuestion.getmText());
+                            mTextViewQuestion.startAnimation(fadeIn);
+                            //mTextViewQuestion.startAnimation(fadeOut);
+
                             for (Answer a : mMSLAnswers) {
                                 mAnswers.add(a);
                             }
 
                             mAdapter.notifyDataSetChanged();
-                            circularProgressView.setVisibility(View.GONE);
+                            recList.startAnimation(fadeIn);
+
+                            //circularProgressView.setVisibility(View.VISIBLE);
                         }
                     });
                 } catch (Exception exception) {

@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.dsv.tourism.R;
-import com.dsv.tourism.model.Office;
 import com.dsv.tourism.model.Quiz;
 
 /**

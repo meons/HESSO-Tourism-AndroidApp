@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dsv.tourism.R;
-import com.dsv.tourism.fragments.AboutFragment;
 import com.dsv.tourism.fragments.AnsweredQuizFragment;
 import com.dsv.tourism.fragments.OfficeFragment;
 import com.dsv.tourism.fragments.QuizFragment;
@@ -53,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // language
-        //SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        //LocalisationHelper.setLocale(getApplicationContext(), pref.getString(getString(R.string.pref_language_selection_key), "fr"));
 
         // First launch tutorial slider
         launchTutorialAtFirstStart();
@@ -97,9 +92,6 @@ public class MainActivity extends AppCompatActivity implements
         // Set the drawer toggle as the DrawerListener
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        //drawerToggle=new ActionBarDrawerToggle(this,mDrawerLayout,R.string.drawer_open,R.string.drawer_close);
-        //mDrawerLayout.setDrawerListener(drawerToggle);
-        //drawerToggle.syncState();
         //default it set first item as selected
         mSelectedId = savedInstanceState == null ? R.id.navigation_item_quizzes: savedInstanceState.getInt("SELECTED_ID");
         selectItem(mSelectedId);
@@ -161,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
             case R.id.navigation_sub_item_options:
-                //menuItem.setChecked(false);
                 startActivity(new Intent(this, SettingsActivity.class));
                 break;
         }
@@ -172,14 +163,6 @@ public class MainActivity extends AppCompatActivity implements
                     .commit();
         }
 
-        // Highlight the selected item, update the title, and close the drawer
-        //mDrawerList.setItemChecked(position, true);
-        /*
-        if (position != 0) {
-            setTitle(mDrawerTitles[position - 1]);
-        }
-        */
-        //mDrawerLayout.closeDrawer(mDrawerList);
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
@@ -310,7 +293,6 @@ public class MainActivity extends AppCompatActivity implements
             editor.putBoolean("touristReferenceCreated", true);
             editor.putString(getString(R.string.preference_tourist_reference), sb.toString());
             editor.apply();
-            //editor.commit();
         }
 
         // retrieve from shared preferences
