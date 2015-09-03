@@ -7,6 +7,11 @@
 
     <include layout="@layout/toolbar" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/toolbar_dropshadow" />
+
     <LinearLayout
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -114,4 +119,6 @@
                 android:text="ZHB" />
         </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

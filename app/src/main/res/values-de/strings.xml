@@ -31,5 +31,16 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_result">Results</string>
 
+    <!-- Result Activity -->
+    <string name="tab_result_name">Quiz results</string>
+    <string name="tab_recommendation_name">Recommendations</string>
+    <string name="radar_data_set_name">Quiz results</string>
+
+    <!-- Answered quizzes -->
+    <string name="answered_quizzes_date_format">MMMM dd, yyyy hh:mm</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

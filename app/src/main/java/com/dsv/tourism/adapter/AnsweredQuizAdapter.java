@@ -58,7 +58,8 @@ public class AnsweredQuizAdapter extends ArrayAdapter<Quiz> {
         final TextView textView = (TextView) row.findViewById(R.id.row_quiz_name);
 
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss", Locale.FRANCE);
+        Locale current = getContext().getResources().getConfiguration().locale;
+        SimpleDateFormat sdf = new SimpleDateFormat(getContext().getString(R.string.answered_quizzes_date_format), current);
 
         final TextView textViewDate = (TextView) row.findViewById(R.id.row_quiz_answered_date);
         textView.setText(quiz.getmName());

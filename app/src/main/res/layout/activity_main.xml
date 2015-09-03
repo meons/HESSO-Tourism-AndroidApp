@@ -43,6 +43,10 @@
                     app:cpv_animAutostart="true"
                     app:cpv_indeterminate="true" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@drawable/toolbar_dropshadow" />
             </FrameLayout>
         </LinearLayout>
     </FrameLayout>
