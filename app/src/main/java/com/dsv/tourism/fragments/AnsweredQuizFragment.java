@@ -172,8 +172,8 @@ public class AnsweredQuizFragment extends Fragment implements AbsListView.OnItem
             Quiz q = quizzes.get(position);
 
             Intent intent = new Intent(getActivity(), ResultActivity.class);
-            intent.putExtra(ResultActivity.ARG_QUIZ_ID, q.getmId());
-            intent.putExtra(ResultActivity.ARG_TOURIST_ID, q.getmTouristId());
+            intent.putExtra(ResultActivity.ARG_PARTICIPATION_ID, q.getmParticipationId());
+            //intent.putExtra(ResultActivity.ARG_TOURIST_ID, q.getmTouristId());
             startActivity(intent);
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.

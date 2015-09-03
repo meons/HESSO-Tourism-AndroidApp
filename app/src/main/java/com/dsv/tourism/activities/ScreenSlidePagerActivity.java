@@ -125,7 +125,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity {
                         int selectedId = mRadioGroupGender.getCheckedRadioButtonId();
                         mRadioButtonGender = (RadioButton) findViewById(selectedId);
                         try {
-                            editor.putInt(getString(R.string.pref_age_key), Integer.parseInt(mRadioButtonGender.getTag().toString()));
+                            editor.putInt(getString(R.string.pref_gender_key), Integer.parseInt(mRadioButtonGender.getTag().toString()));
                         } catch (NumberFormatException nfe) {
                             System.out.println("Could not parse " + nfe);
                         }

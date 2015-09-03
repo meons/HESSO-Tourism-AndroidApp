@@ -83,9 +83,9 @@ public class DataHelper {
         return tourists.get(0);
     }
 
-    public static void addTourist(Tourist t) throws MobileServiceException, ExecutionException, InterruptedException {
+    public static Tourist addTourist(Tourist t) throws MobileServiceException, ExecutionException, InterruptedException {
         MobileServiceTable<Tourist> mTouristTable  = mClient.getTable("tourist", Tourist.class);
-        mTouristTable.insert(t).get();
+        return mTouristTable.insert(t).get();
     }
 
     /**
@@ -111,7 +111,7 @@ public class DataHelper {
             MobileServiceList<Quiz> quiz = mQuizTable.where().field("id").eq(p.getmQuizId()).top(1).execute().get();
             Quiz q = quiz.get(0);
             q.setmAnsweredDate(new Date(p.getmCreatedAt().getTime()));
-            q.setmTouristId(t.getmId());
+            q.setmParticipationId(p.getmId());
 
             quizzes.add(q);
         }
@@ -119,10 +119,16 @@ public class DataHelper {
         return quizzes;
     }
 
-    public static HashMap<String, Integer> getResultByTouristAndQuizId(int touristId, int quizId) throws MobileServiceException, ExecutionException, InterruptedException {
-        MobileServiceTable<Result> mResultTable = mClient.getTable("result", Result.class);
+    public static HashMap<String, Integer> getResultByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
 
-        MobileServiceList<Result> results = mResultTable.where().field("quiz_id").eq(quizId).and().field("tourist_id").eq(touristId).execute().get();
+        Log.e("Result", "Getting Results from participation :"+participationId);
+        // get the participation
+        MobileServiceTable<Participation> mParticipationTable = mClient.getTable("participation", Participation.class);
+        MobileServiceList<Participation> participation = mParticipationTable.where().field("id").eq(participationId).top(1).execute().get();
+        Participation p = participation.get(0);
+
+        MobileServiceTable<Result> mResultTable = mClient.getTable("result", Result.class);
+        MobileServiceList<Result> results = mResultTable.where().field("participation_id").eq(p.getmId()).execute().get();
         HashMap<String, Integer> scores = new HashMap<>();
 
         Log.e("Result", "Result size: " + results.size());
@@ -186,9 +192,10 @@ public class DataHelper {
         return questions.get(0);
     }
 
-    public static void addParticipation(Participation p) throws MobileServiceException, ExecutionException, InterruptedException {
+    public static Participation addParticipation(Participation p) throws MobileServiceException, ExecutionException, InterruptedException {
         MobileServiceTable<Participation> mResultTable  = mClient.getTable("participation", Participation.class);
-        mResultTable.insert(p).get();
+
+        return mResultTable.insert(p).get();
     }
 
     public static void addResult(Result r) throws MobileServiceException, ExecutionException, InterruptedException {

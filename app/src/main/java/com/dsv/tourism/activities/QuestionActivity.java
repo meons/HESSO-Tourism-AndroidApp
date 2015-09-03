@@ -23,7 +23,11 @@ import com.dsv.tourism.model.Result;
 import com.dsv.tourism.model.Tourist;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class QuestionActivity extends AppCompatActivity implements QuestionFragment.OnFragmentInteractionListener {
@@ -133,7 +137,6 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         }
     }
 
-
     /**
      * Insert results in Azure Mobile Service Database
      *
@@ -156,27 +159,24 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
 
                     // No tourist in database, save it !
                     if(null == mTourist) {
-                        Tourist t = new Tourist();
-                        t.setmReference(touristReference);
-                        t.setmCreationDate(new java.sql.Timestamp(utilDate.getTime()));
-                        DataHelper.addTourist(t);
+                        try {
+                            Tourist t = new Tourist();
+                            t.setmReference(touristReference);
+                            t.setmCreationDate(new java.sql.Timestamp(utilDate.getTime()));
 
-                        mTourist = DataHelper.getTouristByReference(touristReference);
-                    }
+                            int touristGender = mSharedPreferences.getInt(getString(R.string.pref_gender_key), -1);
+                            t.setmGender(touristGender);
 
-                    // Add results
-                    for (Map.Entry<Integer, Integer> r : results.entrySet()) {
-                        Integer answerId = r.getKey();
-                        Integer quizId = r.getValue();
+                            String touristBirthDate = mSharedPreferences.getString(getString(R.string.pref_age_key), "1970-01-01");
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.FRANCE);
+                            java.util.Date parsedDate = dateFormat.parse(touristBirthDate);
+                            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                            t.setmBirthDate(timestamp);
 
-                        Result result = new Result();
-                        result.setmAnswerId(answerId);
-                        result.setmQuizId(quizId);
-
-                        result.setmTouristId(mTourist.getmId());
-
-                        // save result
-                        DataHelper.addResult(result);
+                            mTourist = DataHelper.addTourist(t);
+                        } catch (ParseException e) {
+                            Log.e(TAG, "Error: " + e.getMessage());
+                        }
                     }
 
                     // Add participation
@@ -186,7 +186,23 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                     p.setmCreatedAt(new java.sql.Timestamp(utilDate.getTime()));
 
                     // save participation
-                    DataHelper.addParticipation(p);
+                    Participation participation = DataHelper.addParticipation(p);
+
+                    // Add results
+                    for (Map.Entry<Integer, Integer> r : results.entrySet()) {
+                        Integer answerId = r.getKey();
+                        Integer quizId = r.getValue();
+
+                        Result result = new Result();
+                        result.setmAnswerId(answerId);
+                        result.setmParticipationId(participation.getmId());
+
+                        result.setmTouristId(mTourist.getmId());
+
+                        // save result
+                        DataHelper.addResult(result);
+                    }
+
 	            } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());
 	            }

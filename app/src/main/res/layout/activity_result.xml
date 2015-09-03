@@ -19,12 +19,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
-            <ListView
-                android:id="@+id/result_radar_labels"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
-
             <com.github.mikephil.charting.charts.RadarChart
                 android:id="@+id/result_radar"
                 android:layout_width="match_parent"

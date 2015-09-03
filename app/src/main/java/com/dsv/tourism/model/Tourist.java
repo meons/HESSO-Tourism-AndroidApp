@@ -7,30 +7,44 @@ import java.sql.Timestamp;
  */
 public class Tourist {
     /**
-     * Item Id
+     * Tourist Id
      */
     @com.google.gson.annotations.SerializedName("id")
     private Integer mId;
 
     /**
-     * Item text
+     * Tourist reference
      */
     @com.google.gson.annotations.SerializedName("reference")
     private String mReference;
 
     /**
-     * Result answer id
+     * Tourist creation date
      */
     @com.google.gson.annotations.SerializedName("creation_date")
     private Timestamp mCreationDate;
 
+    /**
+     * Tourist birth date
+     */
+    @com.google.gson.annotations.SerializedName("birth_date")
+    private Timestamp mBirthDate;
+
+    /**
+     * Tourist Id
+     */
+    @com.google.gson.annotations.SerializedName("gender")
+    private Integer mGender;
+
     public Tourist() {
     }
 
-    public Tourist(Integer mId, String mReference, Timestamp mCreationDate) {
+    public Tourist(Integer mId, String mReference, Timestamp mCreationDate, Timestamp mBirthDate, Integer mGender) {
         this.mId = mId;
         this.mReference = mReference;
         this.mCreationDate = mCreationDate;
+        this.mBirthDate = mBirthDate;
+        this.mGender = mGender;
     }
 
     public Integer getmId() {
@@ -55,5 +69,21 @@ public class Tourist {
 
     public void setmCreationDate(Timestamp mCreationDate) {
         this.mCreationDate = mCreationDate;
+    }
+
+    public Timestamp getmBirthDate() {
+        return mBirthDate;
+    }
+
+    public void setmBirthDate(Timestamp mBirthDate) {
+        this.mBirthDate = mBirthDate;
+    }
+
+    public Integer getmGender() {
+        return mGender;
+    }
+
+    public void setmGender(Integer mGender) {
+        this.mGender = mGender;
     }
 }

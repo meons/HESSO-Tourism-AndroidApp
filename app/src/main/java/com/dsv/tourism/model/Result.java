@@ -23,19 +23,19 @@ public class Result {
     private Integer mTouristId;
 
     /**
-     * Result quiz id
+     * Result participation id
      */
-    @com.google.gson.annotations.SerializedName("quiz_id")
-    private Integer mQuizId;
+    @com.google.gson.annotations.SerializedName("participation_id")
+    private Integer mParticipationId;
 
     public Result() {
     }
 
-    public Result(Integer mId, Integer mAnswerId, Integer mTouristId, Integer mQuizId) {
+    public Result(Integer mId, Integer mAnswerId, Integer mTouristId, Integer mParticipationId) {
         this.mId = mId;
         this.mAnswerId = mAnswerId;
         this.mTouristId = mTouristId;
-        this.mQuizId = mQuizId;
+        this.mParticipationId = mParticipationId;
     }
 
     public Integer getmId() {
@@ -62,11 +62,11 @@ public class Result {
         this.mTouristId = mTouristId;
     }
 
-    public Integer getmQuizId() {
-        return mQuizId;
+    public Integer getmParticipationId() {
+        return mParticipationId;
     }
 
-    public void setmQuizId(Integer mQuizId) {
-        this.mQuizId = mQuizId;
+    public void setmParticipationId(Integer mParticipationId) {
+        this.mParticipationId = mParticipationId;
     }
 }

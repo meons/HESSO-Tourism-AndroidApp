@@ -1,11 +1,14 @@
 package com.dsv.tourism.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.sql.Date;
 
 /**
  * Created by Vince on 24.08.2015.
  */
-public class Quiz {
+public class Quiz implements Parcelable {
 
     /**
      * Quiz Id
@@ -21,7 +24,7 @@ public class Quiz {
 
     private Date mAnsweredDate;
 
-    private int mTouristId;
+    private int mParticipationId;
 
     public Quiz(Integer mId, String mName) {
         this.mId = mId;
@@ -52,11 +55,43 @@ public class Quiz {
         this.mAnsweredDate = mAnsweredDate;
     }
 
-    public int getmTouristId() {
-        return mTouristId;
+    public int getmParticipationId() {
+        return mParticipationId;
     }
 
-    public void setmTouristId(int mTouristId) {
-        this.mTouristId = mTouristId;
+    public void setmParticipationId(int mParticipationId) {
+        this.mParticipationId = mParticipationId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
+        dest.writeLong(mAnsweredDate.getTime());
+        dest.writeInt(mParticipationId);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Quiz> CREATOR = new Parcelable.Creator<Quiz>() {
+        public Quiz createFromParcel(Parcel in) {
+            return new Quiz(in);
+        }
+
+        public Quiz[] newArray(int size) {
+            return new Quiz[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Quiz(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mAnsweredDate = new Date(in.readLong());
+        mParticipationId = in.readInt();
     }
 }

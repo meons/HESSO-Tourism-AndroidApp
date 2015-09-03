@@ -31,5 +31,8 @@
     <string name="title_activity_about">About</string>
     <string name="title_activity_result">Results</string>
 
+    <!-- Result Activity -->
+    <string name="radar_data_set_name">Quiz results</string>
+
 
 </resources>
