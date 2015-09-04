@@ -20,7 +20,6 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -148,9 +147,11 @@ public class DataHelper {
     public static ArrayList<Recommendation> getRecommendationsByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
 
         // calculate answers score for a category
+        Log.i("DataHelper", "Retrieving all results based on participation ID: " + participationId);
         MobileServiceTable<Result> mResultTable = mClient.getTable("result", Result.class);
         MobileServiceList<Result> results = mResultTable.where().field("participation_id").eq(participationId).execute().get();
         HashMap<Integer, Integer> scores = new HashMap<>();
+
 
         int score = 0;
 
@@ -159,6 +160,7 @@ public class DataHelper {
         MobileServiceTable<Category> mCategoryTable = mClient.getTable("category", Category.class);
 
 
+        Log.i("DataHelper", "For each results, getting answer, question and category");
         for (Result r : results) {
             MobileServiceList<Answer> answers = mAnswerTable.where().field("id").eq(r.getmAnswerId()).top(1).execute().get();
             Answer a = answers.get(0);
@@ -178,7 +180,7 @@ public class DataHelper {
             scores.put(c.getmId(), scores.get(c.getmId()) + score);
         }
 
-        Log.i("sdsd", "Score list size is : " + scores.size());
+        Log.i("DataHelper", "Score calculated ! Now retrieving recommendations and criterias");
         /*
             scores = scores par catégories
 

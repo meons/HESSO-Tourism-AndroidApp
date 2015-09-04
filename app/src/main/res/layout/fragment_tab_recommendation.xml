@@ -13,4 +13,14 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
     </android.support.v7.widget.RecyclerView>
 
+    <com.github.rahatarmanahmed.cpv.CircularProgressView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/progress_view"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center|center"
+        android:visibility="gone"
+        app:cpv_animAutostart="true"
+        app:cpv_indeterminate="true" />
+
 </FrameLayout>

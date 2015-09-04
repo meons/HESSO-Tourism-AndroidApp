@@ -16,7 +16,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.activities.QuestionActivity;

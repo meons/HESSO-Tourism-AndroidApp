@@ -16,7 +16,7 @@ import com.dsv.tourism.R;
 import com.dsv.tourism.adapter.RecommendationAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Recommendation;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import java.util.ArrayList;
 
@@ -48,6 +48,8 @@ public class TabRecommendationFragment extends Fragment {
     private String mParam2;
 
     private int mParticipationId;
+
+    private CircularProgressView circularProgressView;
 
     /**
      * Used to identify class when logging
@@ -129,6 +131,10 @@ public class TabRecommendationFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_tab_recommendation, container, false);
 
+        // get the progress view indicator and set it as visible
+        circularProgressView = (CircularProgressView) v.findViewById(R.id.progress_view);
+        circularProgressView.setVisibility(View.VISIBLE);
+
 
         getRecommendationsFromTable();
 
@@ -198,6 +204,7 @@ public class TabRecommendationFragment extends Fragment {
                             }
 
                             mAdapter.notifyDataSetChanged();
+                            circularProgressView.setVisibility(View.GONE);
 
                         }
                     });

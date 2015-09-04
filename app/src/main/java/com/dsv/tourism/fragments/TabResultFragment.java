@@ -99,8 +99,8 @@ public class TabResultFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_tab_result, container, false);
 
         // get the progress view indicator and set it as visible
-        circularProgressView = (CircularProgressView) v.findViewById(R.id.progress_view);
-        circularProgressView.setVisibility(View.GONE);
+        circularProgressView = (CircularProgressView) v.findViewById(R.id.progress_view_result);
+        circularProgressView.setVisibility(View.VISIBLE);
 
         mChart = (RadarChart) v.findViewById(R.id.result_radar);
         tf = Typeface.createFromAsset(getActivity().getAssets(), "OpenSans-Regular.ttf");
@@ -110,6 +110,7 @@ public class TabResultFragment extends Fragment {
         mChart.setWebLineWidthInner(0.75f);
         mChart.setWebAlpha(100);
         mChart.setClickable(true);
+        mChart.setRotationEnabled(false);
 
         mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
@@ -132,6 +133,7 @@ public class TabResultFragment extends Fragment {
         xAxis.setSpaceBetweenLabels(0);
         xAxis.setDrawLabels(false);
         xAxis.setEnabled(false);
+
 
         YAxis yAxis = mChart.getYAxis();
         yAxis.setTypeface(tf);
