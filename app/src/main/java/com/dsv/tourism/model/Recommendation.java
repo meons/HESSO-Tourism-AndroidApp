@@ -17,6 +17,8 @@ public class Recommendation {
     @com.google.gson.annotations.SerializedName("name")
     private String mName;
 
+    private String mRecommendationCriteriaMessage;
+
     public Recommendation(Integer mId, String mName) {
         this.mId = mId;
         this.mName = mName;
@@ -36,5 +38,14 @@ public class Recommendation {
 
     public void setmName(String mName) {
         this.mName = mName;
+    }
+
+
+    public String getmRecommendationCriteriaMessage() {
+        return mRecommendationCriteriaMessage;
+    }
+
+    public void setmRecommendationCriteriaMessage(String mRecommendationCriteriaMessage) {
+        this.mRecommendationCriteriaMessage = mRecommendationCriteriaMessage;
     }
 }

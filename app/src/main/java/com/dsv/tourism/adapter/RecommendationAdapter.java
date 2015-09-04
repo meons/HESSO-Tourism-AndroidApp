@@ -34,8 +34,7 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
         Recommendation r = answersList.get(i);
 
         contactViewHolder.vRecommendationCategory.setText(r.getmName());
-        contactViewHolder.vRecommendationMessage.setText(r.getmName());
-
+        contactViewHolder.vRecommendationMessage.setText(r.getmRecommendationCriteriaMessage());
     }
 
     @Override

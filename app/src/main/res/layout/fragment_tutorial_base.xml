@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32.0dip"
-                android:text="Start the quiz" />
+                android:text="Answer the quiz" />
             <TextView android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
@@ -31,13 +31,13 @@
                 android:layout_marginLeft="32.0dip"
                 android:layout_marginTop="8.0dip"
                 android:layout_marginRight="72.0dip"
-                android:text="Select the tourist office where you fit in by scrolling down. You will have access to office quizzes."
+                android:text="Simply choose your answer by typing the correct one on the list. It will automatically pass to next question."
                 android:alpha="0.8" />
         </LinearLayout>
         <ImageView
             android:layout_width="240.0dip"
             android:layout_height="270.0dip"
-            android:src="@drawable/tuto_quiz"
+            android:src="@drawable/tutoriel_answer_quiz"
             android:layout_above="@id/pocket1"
             android:layout_centerHorizontal="true" />
         <View

@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32.0dip"
-                android:text="Answer the quiz" />
+                android:text="Quizzes recommendations" />
             <TextView android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
@@ -29,12 +29,12 @@
                 android:layout_marginLeft="32.0dip"
                 android:layout_marginTop="8.0dip"
                 android:layout_marginRight="72.0dip"
-                android:text="Simply choose your answer by typing the correct one on the list. It will automatically pass to next question." android:alpha="0.8" />
+                android:text="The recommendations are based on the answers you have given us. You can view our activities by clicking the « info » button." android:alpha="0.8" />
         </LinearLayout>
         <ImageView android:id="@+id/swipe_image"
             android:layout_width="240.0dip"
             android:layout_height="270.0dip"
-            android:src="@drawable/tuto_quiz"
+            android:src="@drawable/tutoriel_result_recommendations"
             android:layout_above="@+id/pocket2"
             android:layout_centerHorizontal="true" />
         <View android:background="@drawable/shadow_horizontal_inverted"

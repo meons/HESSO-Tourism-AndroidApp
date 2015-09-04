@@ -12,7 +12,7 @@
         android:layout_height="fill_parent">
         <LinearLayout
             android:orientation="vertical"
-            android:id="@+id/pocket3"
+            android:id="@+id/slider_control"
             android:paddingTop="32.0dip"
             android:layout_width="fill_parent"
             android:layout_height="200.0dip"
@@ -75,17 +75,17 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_width="190.0dip"
-            android:layout_height="190.0dip"
-            android:src="@drawable/man"
-            android:layout_above="@id/pocket3"
+            android:layout_width="240.0dip"
+            android:layout_height="270.0dip"
+            android:src="@drawable/tutoriel_gender"
+            android:layout_above="@id/slider_control"
             android:layout_centerHorizontal="true"
             android:id="@+id/man" />
         <View
             android:background="@drawable/shadow_horizontal_inverted"
             android:layout_width="fill_parent"
             android:layout_height="5.0dip"
-            android:layout_above="@id/pocket3" />
+            android:layout_above="@id/slider_control" />
 
     </RelativeLayout>
 </FrameLayout>

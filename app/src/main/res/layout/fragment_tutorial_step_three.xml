@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="32.0dip"
-                android:text="Your reference" />
+                android:text="Quizzes results" />
             <TextView android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
@@ -30,12 +30,12 @@
                 android:layout_marginLeft="32.0dip"
                 android:layout_marginTop="8.0dip"
                 android:layout_marginRight="72.0dip"
-                android:text="Your reference is still visible in the lower part of the image. You can start a new session by clicking on the wheel at the top right" android:alpha="0.8" />
+                android:text="The radar plot shows the distribution of the results and the points obtained for each category. Click on the radar to see the information." android:alpha="0.8" />
         </LinearLayout>
         <ImageView
             android:layout_width="240.0dip"
-            android:layout_height="220.0dip"
-            android:src="@drawable/tuto_reference"
+            android:layout_height="270.0dip"
+            android:src="@drawable/tutoriel_result_radar"
             android:layout_above="@id/pocket3"
             android:layout_centerHorizontal="true" />
         <View

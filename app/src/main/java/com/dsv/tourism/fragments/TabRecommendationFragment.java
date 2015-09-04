@@ -36,7 +36,7 @@ public class TabRecommendationFragment extends Fragment {
     /**
      * A list of answers retrieve from Azure Mobile Service
      */
-    private MobileServiceList<Recommendation> mMSLRecommendations;
+    private ArrayList<Recommendation> mMSLRecommendations;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
