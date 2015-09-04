@@ -38,14 +38,10 @@
 
     <!-- Answered quizzes -->
     <string name="answered_quizzes_date_format">MMMM dd, yyyy, hh:mm</string>
+    <string name="answered_quizzes_snackbar_text">Thank you for your answers</string>
+    <string name="answered_quizzes_snackbar_action">See results</string>
 
     <!-- No data -->
     <string name="no_data_available">No data available</string>
-
-
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 </resources>

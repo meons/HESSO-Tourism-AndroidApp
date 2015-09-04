@@ -1,6 +1,7 @@
 package com.dsv.tourism.activities;
 
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,6 +49,8 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
      */
     private static final String TAG = QuestionActivity.class.getName();
 
+    public static final String ARG_RESULT_PARTICIPATION_ID = "arg_result_participation_id";
+
     /**
      * The argument passed to this fragments. Can be call from it's fragment activity,
      * so must be public. Used to have always the good argument name
@@ -65,6 +68,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             int quizId = b.getInt(ARG_QUIZ_ID);
 
             // Create fragment and give it an argument for the selected article
+            Log.i("dssds", "Start from onCreate");
             QuestionFragment questionFragment = new QuestionFragment();
             Bundle args = new Bundle();
 
@@ -113,6 +117,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         // check if end of quiz ?
         if(null != a.getmNextQuestionId()) {
 
+            Log.i("dssds", "Start from onFragmentInteraction");
             // Create fragment and give it an argument for the selected article
             Fragment questionFragment = QuestionFragment.newInstance(a.getmNextQuestionId());
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -202,16 +207,10 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                         DataHelper.addResult(result);
                     }
 
-                    QuestionFeedbackFragment questionFeedbackFragment = QuestionFeedbackFragment.newInstance(mParticipation.getmId());
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-                    // Replace whatever is in the fragment_container view with this fragment,
-                    // and add the transaction to the back stack so the user can navigate back
-                    transaction.replace(R.id.question_content, questionFeedbackFragment);
-                    transaction.addToBackStack(null);
-
-                    // Commit the transaction
-                    transaction.commit();
+                    Intent intent = new Intent();
+                    intent.putExtra(QuestionActivity.ARG_RESULT_PARTICIPATION_ID, mParticipation.getmId());
+                    setResult(RESULT_OK, intent);
+                    finish();
 
                 } catch (Exception exception) {
                     Log.e(TAG, "Error: " + exception.getMessage());

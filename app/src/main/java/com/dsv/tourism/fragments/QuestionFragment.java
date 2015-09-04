@@ -50,7 +50,6 @@ public class QuestionFragment extends Fragment {
      * The current question
      */
     private Question mQuestion;
-
     private OnFragmentInteractionListener mListener;
     private Integer mQuizId;
     private Integer mQuestionId;
@@ -58,8 +57,6 @@ public class QuestionFragment extends Fragment {
 
     private RecyclerView recList;
     private AlphaAnimation fadeIn;
-    private AlphaAnimation fadeOut;
-
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
@@ -77,9 +74,6 @@ public class QuestionFragment extends Fragment {
      * for example on phone rotate
      */
     int mCurrentNextQuestionId = -1;
-    int mCurrentNextQuestionIdTest;
-
-    //private CircularProgressView circularProgressView;
 
     /**
      * The argument passed to this fragments. Can be call from it's fragment activity,
@@ -96,7 +90,13 @@ public class QuestionFragment extends Fragment {
 
     public static QuestionFragment newInstance(Integer nextQuestionId) {
         QuestionFragment fragment = new QuestionFragment();
-        Bundle args = new Bundle();
+
+        // Get arguments passed in, if any
+        Bundle args = fragment.getArguments();
+        if (args == null) {
+            args = new Bundle();
+        }
+
         args.putInt(ARG_NEXT_QUESTION_ID, nextQuestionId);
         fragment.setArguments(args);
         return fragment;
@@ -124,8 +124,6 @@ public class QuestionFragment extends Fragment {
         mAdapter = new AnswerAdapter(mAnswers);
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -138,12 +136,6 @@ public class QuestionFragment extends Fragment {
         }
 
         View view = inflater.inflate(R.layout.fragment_question, container, false);
-
-
-        // get the progress view indicator and set it as visible
-        //circularProgressView = (CircularProgressView) getActivity().findViewById(R.id.progress_view);
-        //circularProgressView.setVisibility(View.VISIBLE);
-
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.anim_toolbar);
 
@@ -160,7 +152,6 @@ public class QuestionFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -170,12 +161,8 @@ public class QuestionFragment extends Fragment {
         // below that sets the article text.
         mTextViewQuestion = (TextView) getActivity().findViewById(R.id.question);
         fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
-        fadeOut = new AlphaAnimation( 1.0f , 0.0f ) ;
         fadeIn.setDuration(800);
         fadeIn.setFillAfter(true);
-        fadeOut.setDuration(1200);
-        fadeOut.setFillAfter(true);
-        fadeOut.setStartOffset(1200 + fadeIn.getStartOffset());
 
 
         recList = (RecyclerView) getActivity().findViewById(R.id.answer_list);
@@ -187,9 +174,6 @@ public class QuestionFragment extends Fragment {
     }
 
     public void updateQuestion() {
-
-        //circularProgressView.setVisibility(View.VISIBLE);
-
         Bundle args = getArguments();
         if (args != null) {
             if(mNextQuestionId != -1) {
@@ -218,7 +202,6 @@ public class QuestionFragment extends Fragment {
         // Save the current article selection in case we need to recreate the fragment
         outState.putInt(ARG_NEXT_QUESTION_ID, mCurrentNextQuestionId);
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -354,7 +337,6 @@ public class QuestionFragment extends Fragment {
 
                             mTextViewQuestion.setText(mQuestion.getmText());
                             mTextViewQuestion.startAnimation(fadeIn);
-                            //mTextViewQuestion.startAnimation(fadeOut);
 
                             for (Answer a : mMSLAnswers) {
                                 mAnswers.add(a);
@@ -374,3 +356,5 @@ public class QuestionFragment extends Fragment {
         }.execute();
     }
 }
+
+

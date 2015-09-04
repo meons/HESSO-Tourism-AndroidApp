@@ -33,7 +33,9 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
     public void onBindViewHolder(AnswerViewHolder contactViewHolder, int i) {
         Recommendation r = answersList.get(i);
 
-        contactViewHolder.vName.setText(r.getmName());
+        contactViewHolder.vRecommendationCategory.setText(r.getmName());
+        contactViewHolder.vRecommendationMessage.setText(r.getmName());
+
     }
 
     @Override
@@ -57,11 +59,13 @@ public class RecommendationAdapter extends RecyclerView.Adapter<RecommendationAd
     }
 
     public class AnswerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        protected TextView vName;
+        protected TextView vRecommendationCategory;
+        protected TextView vRecommendationMessage;
 
         public AnswerViewHolder(View v) {
             super(v);
-            vName =  (TextView) v.findViewById(R.id.txtName);
+            vRecommendationCategory =  (TextView) v.findViewById(R.id.text_view_recommendation_category);
+            vRecommendationMessage =  (TextView) v.findViewById(R.id.text_view_recommendation_message);
 
             v.setOnClickListener(this);
         }

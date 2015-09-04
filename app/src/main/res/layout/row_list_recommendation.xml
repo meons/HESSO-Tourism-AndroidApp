@@ -21,18 +21,18 @@
             android:layout_height="wrap_content">
             <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:id="@id/txtName"
+                android:id="@+id/text_view_recommendation_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_primary"
                 android:text="Recommendation" />
             <TextView
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:id="@+id/libraryCreator"
+                android:id="@+id/text_view_recommendation_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/text_secondary"
-                android:text="Recommendation message" />
+                android:text="-" />
         </LinearLayout>
         <ImageButton
             android:layout_gravity="center|right"

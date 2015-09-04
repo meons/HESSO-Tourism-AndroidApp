@@ -1,8 +1,10 @@
 package com.dsv.tourism.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,9 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.activities.QuestionActivity;
+import com.dsv.tourism.activities.ResultActivity;
 import com.dsv.tourism.adapter.QuizAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Quiz;
@@ -65,12 +70,6 @@ public class QuizFragment extends Fragment implements AbsListView.OnItemClickLis
 
         // init azure service
         DataHelper.init(getActivity());
-
-
-        /*
-        ((MainActivity)getActivity()).resetActionBar(true,
-                DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        */
 
         // create the adapter for quizzes list
         mAdapter = new QuizAdapter(getActivity(), R.layout.row_list_quiz);
@@ -194,7 +193,36 @@ public class QuizFragment extends Fragment implements AbsListView.OnItemClickLis
         Intent intent = new Intent(getActivity(), QuestionActivity.class);
         intent.putExtra(QuestionActivity.ARG_QUIZ_ID, quiz.getmId());
 
-        startActivity(intent);
-        //this.finish();
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode) {
+            case (1) : {    // the one in startActivityForResult
+                if (resultCode == QuestionActivity.RESULT_OK) {
+                    final int participationId = data.getIntExtra(QuestionActivity.ARG_RESULT_PARTICIPATION_ID, -1);
+
+                    if(participationId != -1) {
+                        Snackbar snack = Snackbar.make(getActivity().findViewById(R.id.main_content), getString(R.string.answered_quizzes_snackbar_text), Snackbar.LENGTH_LONG)
+                                .setAction(getString(R.string.answered_quizzes_snackbar_action), new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(getActivity(), ResultActivity.class);
+                                        intent.putExtra(ResultActivity.ARG_PARTICIPATION_ID, participationId);
+                                        startActivity(intent);
+                                    }
+                                });
+                        View view = snack.getView();
+                        TextView tv = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+                        tv.setTextColor(Color.WHITE);
+                        snack.show();
+                    }
+                }
+                break;
+            }
+        }
     }
 }

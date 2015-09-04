@@ -41,7 +41,6 @@ public class DataHelper {
     private DataHelper() {}
 
     public static void init(Context context) {
-
         if (mAzureServiceHelper == null){
             mAzureServiceHelper = new AzureServiceHelper(context);
         }
@@ -84,6 +83,15 @@ public class DataHelper {
         return tourists.get(0);
     }
 
+    /**
+     * Save a new tourist object
+     *
+     * @param t The tourist
+     * @return the inserted tourist object
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static Tourist addTourist(Tourist t) throws MobileServiceException, ExecutionException, InterruptedException {
         MobileServiceTable<Tourist> mTouristTable  = mClient.getTable("tourist", Tourist.class);
         return mTouristTable.insert(t).get();
@@ -125,9 +133,16 @@ public class DataHelper {
         return quizzes;
     }
 
+    /**
+     * Get all recommendations for a participation
+     *
+     * @param participationId
+     * @return
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static MobileServiceList<Recommendation> getRecommendationsByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
-
-
         // get the participation
         MobileServiceTable<Participation> mParticipationTable = mClient.getTable("participation", Participation.class);
         MobileServiceList<Participation> participation = mParticipationTable.where().field("id").eq(participationId).top(1).execute().get();
@@ -139,7 +154,15 @@ public class DataHelper {
         return recommendations;
     }
 
-
+    /**
+     * Get all results for a participation
+     *
+     * @param participationId
+     * @return
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static HashMap<String, Integer> getResultByParticipationId(int participationId) throws MobileServiceException, ExecutionException, InterruptedException {
 
         // get the participation
@@ -196,6 +219,15 @@ public class DataHelper {
         return quizzes;
     }
 
+    /**
+     * Get questions for a quiz by his id
+     *
+     * @param id
+     * @return
+     * @throws MobileServiceException
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     public static Question getQuestionByQuizId(Integer id) throws MobileServiceException, ExecutionException, InterruptedException {
         MobileServiceTable<Question> mOfficeTable = mClient.getTable("question", Question.class);
         MobileServiceList<Question> questions = mOfficeTable.where().field("quiz_id").eq(id).top(1).execute().get();
