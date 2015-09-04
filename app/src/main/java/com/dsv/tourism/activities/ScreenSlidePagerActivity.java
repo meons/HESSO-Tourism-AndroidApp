@@ -123,6 +123,7 @@ public class ScreenSlidePagerActivity extends AppCompatActivity {
                             System.out.println("Could not parse " + nfe);
                         }
 
+                        editor.putBoolean("appFirstLaunch", true);
                         editor.apply();
                         finish();
                     }

@@ -263,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
         if (!pref.getBoolean("appFirstLaunch", false) || pref.getBoolean(getString(R.string.pref_tutorial_key), false)) {
             SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean("appFirstLaunch", true);
+            //editor.putBoolean("appFirstLaunch", true);
             editor.putBoolean(getString(R.string.pref_tutorial_key), false);
             //editor.commit();
             editor.apply();
