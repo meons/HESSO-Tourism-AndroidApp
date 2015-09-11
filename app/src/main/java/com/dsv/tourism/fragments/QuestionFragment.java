@@ -21,6 +21,7 @@ import com.dsv.tourism.adapter.AnswerAdapter;
 import com.dsv.tourism.azure.DataHelper;
 import com.dsv.tourism.model.Answer;
 import com.dsv.tourism.model.Question;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public class QuestionFragment extends Fragment {
      * Views.
      */
     private AnswerAdapter mAdapter;
+
+    private CircularProgressView circularProgressView;
 
     /**
      * Textview containing the answers question

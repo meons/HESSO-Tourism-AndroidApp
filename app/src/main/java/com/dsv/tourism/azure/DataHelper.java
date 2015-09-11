@@ -160,6 +160,9 @@ public class DataHelper {
         MobileServiceTable<Category> mCategoryTable = mClient.getTable("category", Category.class);
 
 
+
+
+
         Log.i("DataHelper", "For each results, getting answer, question and category");
         for (Result r : results) {
             MobileServiceList<Answer> answers = mAnswerTable.where().field("id").eq(r.getmAnswerId()).top(1).execute().get();
@@ -196,6 +199,7 @@ public class DataHelper {
 
         MobileServiceTable<Recommendation> mRecommendationTable = mClient.getTable("recommendation", Recommendation.class);
         MobileServiceTable<RecommendationCriteria> mRecommendationCriteriaTable = mClient.getTable("recommendation_criteria", RecommendationCriteria.class);
+
         for(Map.Entry<Integer, Integer> entry : scores.entrySet()) {
             Integer categoriId = entry.getKey();
             Integer scoreValue = entry.getValue();
@@ -203,17 +207,21 @@ public class DataHelper {
 
             MobileServiceList<Recommendation> recommendations = mRecommendationTable.where().field("category_id").eq(categoriId).top(1).execute().get();
 
+
             if(!recommendations.isEmpty()) {
                 Recommendation r = recommendations.get(0);
+                Log.i("DataHelper", "CAT ID : " + categoriId + " REC NAME :" + r.getmName());
                 MobileServiceList<RecommendationCriteria> recommendationCriterias = mRecommendationCriteriaTable.where().field("recommendation_id").eq(r.getmId())
-                        .and().field("threshold_max").gt(scoreValue)
-                        .and().field("threshold_min").le(scoreValue)
+                        .and().field("threshold_min").gt(scoreValue - 1)
+                        .and().field("threshold_max").le(scoreValue)
                         .execute().get();
 
-                RecommendationCriteria critera = recommendationCriterias.get(0);
+                if(!recommendationCriterias.isEmpty()) {
+                    RecommendationCriteria critera = recommendationCriterias.get(0);
 
-                r.setmRecommendationCriteriaMessage(critera.getmMessage());
-                recommendationsList.add(r);
+                    r.setmRecommendationCriteriaMessage(critera.getmMessage());
+                    recommendationsList.add(r);
+                }
             }
         }
 

@@ -32,8 +32,16 @@ public class AnswerAdapter extends RecyclerView.Adapter<AnswerAdapter.AnswerView
     public void onBindViewHolder(AnswerViewHolder contactViewHolder, int i) {
         Answer a = answersList.get(i);
 
+
         contactViewHolder.vName.setText(a.getmText());
-        contactViewHolder.vSurname.setText(a.getmDescription());
+
+        if(a.getmDescription() == null || a.getmDescription().length() == 0 || a.getmDescription().equals(""))
+        {
+            contactViewHolder.vSurname.setVisibility(View.GONE);
+        } else {
+            contactViewHolder.vSurname.setVisibility(View.VISIBLE);
+            contactViewHolder.vSurname.setText(a.getmDescription());
+        }
     }
 
     @Override

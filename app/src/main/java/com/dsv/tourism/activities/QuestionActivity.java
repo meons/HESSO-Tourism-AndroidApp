@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import com.dsv.tourism.R;
 import com.dsv.tourism.azure.DataHelper;
@@ -21,6 +23,7 @@ import com.dsv.tourism.model.Participation;
 import com.dsv.tourism.model.Question;
 import com.dsv.tourism.model.Result;
 import com.dsv.tourism.model.Tourist;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -43,6 +46,9 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
     private SharedPreferences mSharedPreferences;
 
     private Participation mParticipation;
+
+    private CircularProgressView circularProgressView;
+
     /**
      * Used to identify class when logging
      */
@@ -56,10 +62,15 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
      */
     public final static String ARG_QUIZ_ID = "quiz_id";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+
+        // get the progress view indicator and set it as visible
+        circularProgressView = (CircularProgressView) this.findViewById(R.id.progress_view_send);
+        circularProgressView.setVisibility(View.GONE);
 
         // get clicked quiz ID from quiz fragment
         Bundle b = getIntent().getExtras();
@@ -67,7 +78,6 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             int quizId = b.getInt(ARG_QUIZ_ID);
 
             // Create fragment and give it an argument for the selected article
-            Log.i("dssds", "Start from onCreate");
             QuestionFragment questionFragment = new QuestionFragment();
             Bundle args = new Bundle();
 
@@ -116,7 +126,6 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
         // check if end of quiz ?
         if(null != a.getmNextQuestionId()) {
 
-            Log.i("dssds", "Start from onFragmentInteraction");
             // Create fragment and give it an argument for the selected article
             Fragment questionFragment = QuestionFragment.newInstance(a.getmNextQuestionId());
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -133,6 +142,7 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
             // Next question is NULL, so that is quiz end. Now send results and display a message
             // to the user
 
+            circularProgressView.setVisibility(View.VISIBLE);
             //Fragment questionFragment = new FragmentQuest
             insertResult(quizAnswers);
 
@@ -206,9 +216,19 @@ public class QuestionActivity extends AppCompatActivity implements QuestionFragm
                         DataHelper.addResult(result);
                     }
 
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // hide circular progress view
+                            circularProgressView.setVisibility(View.GONE);
+                            circularProgressView.resetAnimation();
+                        }
+                    });
+
                     Intent intent = new Intent();
                     intent.putExtra(QuestionActivity.ARG_RESULT_PARTICIPATION_ID, mParticipation.getmId());
                     setResult(RESULT_OK, intent);
+
                     finish();
 
                 } catch (Exception exception) {
